@@ -1,6 +1,6 @@
 [Mesh]
   type = FileMesh
-  file = exodus_exodus_out.e
+  file = macro_in.e
   construct_side_list_from_node_list = true
 []
 
@@ -331,7 +331,6 @@
     app_type = babblerAPP
     use_displaced_mesh = false
     execute_on = 'TIMESTEP_END'
-    max_parallel_apps = 1
     # sub_cycling = true
     sub_cycling = true
     input_files =  micro.i
