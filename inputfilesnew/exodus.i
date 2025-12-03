@@ -2,6 +2,7 @@
   [./import]
     type = FileMeshGenerator
     file = 'closed.msh'
+    uniform_refine = 0
   []
 
   # 1) Create a sideset on the interface between cathode and cat_inside
