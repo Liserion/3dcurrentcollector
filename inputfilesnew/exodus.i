@@ -1,7 +1,7 @@
 [Mesh]
   [./import]
     type = FileMeshGenerator
-    file = 'closed.msh'
+    file = 'firsttry.msh'
     uniform_refine = 0
   []
 
