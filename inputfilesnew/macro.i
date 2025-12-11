@@ -2,7 +2,6 @@
   type = FileMesh
   file = macro_in.e
   construct_side_list_from_node_list = true
-  parallel_type = distributed
 []
 
 [GlobalParams]
