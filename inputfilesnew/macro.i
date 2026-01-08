@@ -289,23 +289,23 @@
     variable = ce
   [../]
 
-  [./ce_to_micro_pp]
+  [./c2_to_micro_pp]
     type = ElementAverageValue
-    variable = ce
+    variable = RealC
     block = cathode
     execute_on = 'TIMESTEP_END'
   [../]
 
-  [./phis_to_micro_pp]
+  [./phi1_to_micro_pp]
     type = ElementAverageValue
-    variable = phis
+    variable = RealPhi1
     block = cathode
     execute_on = 'TIMESTEP_END'
   [../]
 
-  [./phie_to_micro_pp]
+  [./phi2_to_micro_pp]
     type = ElementAverageValue
-    variable = phie
+    variable = RealPhi2
     block = cathode
     execute_on = 'TIMESTEP_END'
   [../]
@@ -365,7 +365,7 @@
     multi_app = micro
     execute_on = SAME_AS_MULTIAPP
     direction = to_multiapp
-    from_postprocessor = ce_to_micro_pp
+    from_postprocessor = c2_to_micro_pp
     to_postprocessor = c2_from_macro
   [../]
   [./phi1_to_micro]
@@ -373,7 +373,7 @@
     multi_app = micro
     execute_on = SAME_AS_MULTIAPP
     direction = to_multiapp
-    from_postprocessor = phis_to_micro_pp
+    from_postprocessor = phi1_to_micro_pp
     to_postprocessor = phi1_from_macro
   [../]
   [./phi2_to_micro]
@@ -381,7 +381,7 @@
     multi_app = micro
     execute_on = SAME_AS_MULTIAPP
     direction = to_multiapp
-    from_postprocessor = phie_to_micro_pp
+    from_postprocessor = phi2_to_micro_pp
     to_postprocessor = phi2_from_macro
   [../]
 #  [./J_to_micro]
