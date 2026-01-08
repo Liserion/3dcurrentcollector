@@ -87,26 +87,26 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = block_0
+    block = 0
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = block_0
+    block = 0
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
     variable = phie
     Ce =  ce
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
   ###############################
   ### For cathode
@@ -288,6 +288,27 @@
     type = ElementAverageValue
     variable = ce
   [../]
+
+  [./ce_to_micro_pp]
+    type = ElementAverageValue
+    variable = ce
+    block = cathode
+    execute_on = 'TIMESTEP_END'
+  [../]
+
+  [./phis_to_micro_pp]
+    type = ElementAverageValue
+    variable = phis
+    block = cathode
+    execute_on = 'TIMESTEP_END'
+  [../]
+
+  [./phie_to_micro_pp]
+    type = ElementAverageValue
+    variable = phie
+    block = cathode
+    execute_on = 'TIMESTEP_END'
+  [../]
 #  [./damage]
 #    type = ElementAverageValue
 #    variable = Damage
@@ -340,28 +361,28 @@
 
  [Transfers]
   [./c2_to_micro]
-    type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppPostprocessorTransfer
     multi_app = micro
     execute_on = SAME_AS_MULTIAPP
     direction = to_multiapp
-    source_variable = ce
-    postprocessor = c2_from_macro
+    from_postprocessor = ce_to_micro_pp
+    to_postprocessor = c2_from_macro
   [../]
   [./phi1_to_micro]
-    type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppPostprocessorTransfer
     multi_app = micro
     execute_on = SAME_AS_MULTIAPP
     direction = to_multiapp
-    source_variable = phis
-    postprocessor = phi1_from_macro
+    from_postprocessor = phis_to_micro_pp
+    to_postprocessor = phi1_from_macro
   [../]
   [./phi2_to_micro]
-    type = MultiAppVariableValueSamplePostprocessorTransfer
+    type = MultiAppPostprocessorTransfer
     multi_app = micro
     execute_on = SAME_AS_MULTIAPP
     direction = to_multiapp
-    source_variable = phie
-    postprocessor = phi2_from_macro
+    from_postprocessor = phie_to_micro_pp
+    to_postprocessor = phi2_from_macro
   [../]
 #  [./J_to_micro]
 #      type = MultiAppVariableValueSamplePostprocessorTransfer
