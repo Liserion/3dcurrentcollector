@@ -99,7 +99,7 @@
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = 0
+    block = block_0
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
