@@ -249,7 +249,9 @@
   end_time = 36000.0
   # num_steps = 2
 
-  steady_state_detection = false
+  steady_state_detection = true
+  steady_state_start_time = 12.0
+  steady_state_tolerance = 9e-09
 []
 
 [Outputs]
@@ -309,34 +311,6 @@
 #  [../]
   [./dt]
     type = TimestepSize
-  [../]
-
-  [./phis_min]
-    type = NodalExtremeValue
-    variable = phis
-    value_type = min
-    execute_on = 'TIMESTEP_END'
-  [../]
-
-  [./phis_max]
-    type = NodalExtremeValue
-    variable = phis
-    value_type = max
-    execute_on = 'TIMESTEP_END'
-  [../]
-
-  [./phie_min]
-    type = NodalExtremeValue
-    variable = phie
-    value_type = min
-    execute_on = 'TIMESTEP_END'
-  [../]
-
-  [./phie_max]
-    type = NodalExtremeValue
-    variable = phie
-    value_type = max
-    execute_on = 'TIMESTEP_END'
   [../]
   # [./mem]
   #   type= MemoryUsage
