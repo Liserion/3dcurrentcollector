@@ -194,7 +194,7 @@
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.070659
+    I = 0.0070659
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
