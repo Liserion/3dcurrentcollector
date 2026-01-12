@@ -1,0 +1,14 @@
+# mac
+.DS_Store
+
+# simulation outputs
+*.e
+*.csv
+*.out
+*.err
+
+# MOOSE checkpoint/restart output folders
+*_cp/
+**/*restart*
+**/*.rd/
+**/*.cpa.gz/
