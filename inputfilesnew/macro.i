@@ -287,27 +287,6 @@
     type = ElementAverageValue
     variable = ce
   [../]
-
-  [./c2_to_micro_pp]
-    type = ElementAverageValue
-    variable = RealC
-    block = cathode
-    execute_on = 'TIMESTEP_END'
-  [../]
-
-  [./phi1_to_micro_pp]
-    type = ElementAverageValue
-    variable = RealPhi1
-    block = cathode
-    execute_on = 'TIMESTEP_END'
-  [../]
-
-  [./phi2_to_micro_pp]
-    type = ElementAverageValue
-    variable = RealPhi2
-    block = cathode
-    execute_on = 'TIMESTEP_END'
-  [../]
 #  [./damage]
 #    type = ElementAverageValue
 #    variable = Damage

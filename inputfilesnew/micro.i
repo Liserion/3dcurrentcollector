@@ -25,6 +25,11 @@
     type = TimeDerivative
     variable = Cs
   [../]
+  [./diff]
+    type = CoefDiffusion
+    variable = Cs
+    coef = 1.0e-5
+  [../]
 []
 
 [GlobalParams]
