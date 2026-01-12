@@ -17,7 +17,6 @@
   #Omega = 0.08
 []
 
-#
 #[MeshModifiers]
 #  [./block1]
 #    type = SubdomainBoundingBox
@@ -100,7 +99,7 @@
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = block_0
+    block = 0
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
