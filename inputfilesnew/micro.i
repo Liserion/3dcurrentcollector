@@ -26,9 +26,8 @@
     variable = Cs
   [../]
   [./diff]
-    type = CoefDiffusion
+    type = Diffusion
     variable = Cs
-    coef = 1.0e-5
   [../]
 []
 
