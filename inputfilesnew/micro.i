@@ -17,7 +17,6 @@
     family = LAGRANGE
     order = FIRST
     initial_condition = 0.5
-    block = cathode
   [../]
 []
 
@@ -25,12 +24,10 @@
   [./dcsdt]
     type = TimeDerivative
     variable = Cs
-    block = cathode
   [../]
   [./diff]
     type = Diffusion
     variable = Cs
-    block = cathode
   [../]
 []
 
