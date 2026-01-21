@@ -1,0 +1,57 @@
+environment: line 17: /usr/share/lmod/lmod/libexec/lmod: No such file or directory
+environment: line 17: /usr/share/lmod/lmod/libexec/lmod: No such file or directory
+environment: line 17: /usr/share/lmod/lmod/libexec/lmod: No such file or directory
+environment: line 17: /usr/share/lmod/lmod/libexec/lmod: No such file or directory
+environment: line 17: /usr/share/lmod/lmod/libexec/lmod: No such file or directory
+
+[31m
+*** ERROR ***
+/work/scratch/jk98dago/./3dcurrentcollector/inputfilesnew/macro.i:240.3:
+The following occurred in the TimeStepper 'IterationAdaptiveDT' of type IterationAdaptiveDT.
+
+Solve failed and timestep already at dtmin, cannot continue![39m
+
+
+[31m
+*** ERROR ***
+/work/scratch/jk98dago/./3dcurrentcollector/inputfilesnew/macro.i:240.3:
+The following occurred in the TimeStepper 'IterationAdaptiveDT' of type IterationAdaptiveDT.
+
+Solve failed and timestep already at dtmin, cannot continue![39m
+
+
+[31m
+*** ERROR ***
+/work/scratch/jk98dago/./3dcurrentcollector/inputfilesnew/macro.i:240.3:
+The following occurred in the TimeStepper 'IterationAdaptiveDT' of type IterationAdaptiveDT.
+
+Solve failed and timestep already at dtmin, cannot continue![39m
+
+
+[31m
+*** ERROR ***
+/work/scratch/jk98dago/./3dcurrentcollector/inputfilesnew/macro.i:240.3:
+The following occurred in the TimeStepper 'IterationAdaptiveDT' of type IterationAdaptiveDT.
+
+Solve failed and timestep already at dtmin, cannot continue![39m
+
+Abort(1) on node 9 (rank 9 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 9
+Abort(1) on node 10 (rank 10 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 10
+Abort(1) on node 11 (rank 11 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 11
+[2026-01-13T11:39:13.204] error: *** STEP 49434341.0 ON mpsc0024 CANCELLED AT 2026-01-13T11:39:13 DUE to SIGNAL Killed ***
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+srun: error: mpsc0040: task 3: Killed
+srun: error: mpsc0024: task 0: Killed
+srun: error: mpsc0261: task 13: Killed
+srun: error: mpsc0045: task 6: Killed
+srun: error: mpsc0069: task 12: Killed
+srun: error: mpsc0025: task 1: Killed
+srun: error: mpsc0042: task 4: Killed
+srun: error: mpsc0050: task 8: Killed
+srun: error: mpsc0049: task 7: Killed
+srun: error: mpsc0031: task 2: Killed
+srun: error: mpsc0043: task 5: Killed
+srun: error: mpsc0056: tasks 9-11: Killed
+srun: error: mpsc0263: tasks 20,36,38-39,45: Killed
+srun: error: mpsc0263: tasks 18,27,30,32-33,37,41-42,44: Killed
+srun: error: mpsc0263: tasks 14-17,19,21-26,28-29,31,34-35,40,43,46-47: Killed
