@@ -1,4 +1,4 @@
-[Mesh]
+Mesh]
   type = FileMesh
   file = macro_in.e
   construct_side_list_from_node_list = true
@@ -239,8 +239,8 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-6
-    optimal_iterations = 5
+    dt = 1.0
+    optimal_iterations = 10
     growth_factor = 1.2
     cutback_factor = 0.5
   [../]
@@ -262,9 +262,12 @@
   csv = true
   exodus = true
   execute_on = 'TIMESTEP_END'
-  print_linear_residuals = false
-  console = false
   #interval = 2
+  console = true
+  print_linear_residuals = true
+[]
+[Debug]
+  show_var_residual_norms = true
 []
 
 [Postprocessors]
