@@ -1,4 +1,4 @@
-Mesh]
+[Mesh]
   type = FileMesh
   file = macro_in.e
   construct_side_list_from_node_list = true
@@ -266,6 +266,7 @@ Mesh]
   console = true
   print_linear_residuals = true
 []
+
 [Debug]
   show_var_residual_norms = true
 []
