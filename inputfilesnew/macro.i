@@ -228,7 +228,7 @@
   solve_type = PJFNK
 
   petsc_options_iname = '-pc_type -pc_svd_monitor'
-  petsc_options_value = 'svd true'
+  petsc_options_value = 'svd ascii:stdout'
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
