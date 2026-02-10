@@ -29,12 +29,15 @@
 [Variables]
   [./ce]
     initial_condition = 0.0874891
+    scaling = 1e-1
   [../]
   [./phis]
     initial_condition = 160.523
+    scaling = 1e2
   [../]
   [./phie]
-    initial_condition = 1.0e-12
+    initial_condition = 1.0e-3
+    scaling = 1.0
   [../]
 []
 [AuxVariables]
