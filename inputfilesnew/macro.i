@@ -227,9 +227,8 @@
   type = Transient
   solve_type = PJFNK
 
-  petsc_options = '-pc_svd_monitor'
-  petsc_options_iname = '-pc_type'
-  petsc_options_value = 'svd'
+  automatic_scaling = true
+  compute_scaling_once = false
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
