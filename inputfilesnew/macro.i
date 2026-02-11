@@ -230,6 +230,11 @@
   type = Transient
   solve_type = PJFNK
 
+  # More robust Newton updates during difficult solves
+  line_search = 'basic'
+  petsc_options_iname = '-snes_linesearch_damping'
+  petsc_options_value = '0.5'
+
   automatic_scaling = true
   compute_scaling_once = false
 
