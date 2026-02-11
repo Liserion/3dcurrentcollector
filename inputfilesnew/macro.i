@@ -230,10 +230,16 @@
   type = Transient
   solve_type = PJFNK
 
-  # More robust Newton updates during difficult solves
-  line_search = 'basic'
-  petsc_options_iname = '-snes_linesearch_damping'
-  petsc_options_value = '0.5'
+  # Debug-friendly / more robust solver settings
+  # (We turn off line search to avoid line-search failures in stiff coupled solves)
+  line_search = 'none'
+
+  # PETSc diagnostics (prints why KSP converged/failed and the true residual)
+  petsc_options = '-ksp_converged_reason -ksp_monitor_true_residual'
+
+  # Give GMRES more room before restart + allow more iterations
+  petsc_options_iname = '-ksp_gmres_restart -ksp_max_it'
+  petsc_options_value = '500 5000'
 
   automatic_scaling = true
   compute_scaling_once = false
@@ -247,14 +253,19 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0
-    optimal_iterations = 10
+    # Start much smaller for the coupled micro-macro diffusion case
+    dt = 1e-3
+    optimal_iterations = 8
     growth_factor = 1.2
     cutback_factor = 0.5
   [../]
-  dtmax = 1.0
-  end_time = 36000.0
-  # num_steps = 2
+
+  # Keep dt growth bounded during debugging
+  dtmax = 1e-2
+
+  # Only run a single step for debugging
+  end_time = 1.0
+  num_steps = 1
 
   steady_state_detection = true
   steady_state_start_time = 12.0
@@ -343,8 +354,8 @@
     app_type = babblerAPP
     use_displaced_mesh = false
     execute_on = 'TIMESTEP_END'
-    # sub_cycling = true
-    sub_cycling = true
+    # Disable sub-cycling for now while debugging stability/conditioning
+    sub_cycling = false
     input_files =  micro.i
     block = cathode
   [../]
