@@ -29,15 +29,12 @@
 [Variables]
   [./ce]
     initial_condition = 0.0874891
-    scaling = 1e-1
   [../]
   [./phis]
     initial_condition = 160.523
-    scaling = 1e2
   [../]
   [./phie]
-    initial_condition = 1.0e-3
-    scaling = 1.0
+    initial_condition = 1.0e-12
   [../]
 []
 [AuxVariables]
@@ -230,19 +227,8 @@
   type = Transient
   solve_type = PJFNK
 
-  # Debug-friendly / more robust solver settings
-  # (We turn off line search to avoid line-search failures in stiff coupled solves)
-  line_search = 'none'
-
-  # PETSc diagnostics (prints why KSP converged/failed and the true residual)
-  petsc_options = '-ksp_converged_reason -ksp_monitor_true_residual'
-
-  # Give GMRES more room before restart + allow more iterations
-  petsc_options_iname = '-ksp_gmres_restart -ksp_max_it'
-  petsc_options_value = '500 5000'
-
-  automatic_scaling = true
-  compute_scaling_once = false
+  petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
+  petsc_options_value = ' lu       1501                mumps'
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
@@ -253,19 +239,14 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    # Start much smaller for the coupled micro-macro diffusion case
-    dt = 1e-3
-    optimal_iterations = 8
+    dt = 1.0
+    optimal_iterations = 10
     growth_factor = 1.2
     cutback_factor = 0.5
   [../]
-
-  # Keep dt growth bounded during debugging
-  dtmax = 1e-2
-
-  # Only run a single step for debugging
-  end_time = 1.0
-  num_steps = 1
+  dtmax = 1.0
+  end_time = 36000.0
+  # num_steps = 2
 
   steady_state_detection = true
   steady_state_start_time = 12.0
@@ -281,11 +262,10 @@
   csv = true
   exodus = true
   execute_on = 'TIMESTEP_END'
-  #interval = 2
-  console = true
   print_linear_residuals = true
+  console = false
+  #interval = 2
 []
-
 [Debug]
   show_var_residual_norms = true
 []
@@ -354,8 +334,8 @@
     app_type = babblerAPP
     use_displaced_mesh = false
     execute_on = 'TIMESTEP_END'
-    # Disable sub-cycling for now while debugging stability/conditioning
-    sub_cycling = false
+    # sub_cycling = true
+    sub_cycling = true
     input_files =  micro.i
     block = cathode
   [../]
