@@ -261,7 +261,7 @@
   # [../]
   csv = true
   exodus = true
-  execute_on = 'TILMESTEP_END'
+  execute_on = 'TIMESTEP_END'
   print_linear_residuals = true
   console = true
   #interval = 2
