@@ -225,13 +225,16 @@
 
 [Executioner]
   type = Transient
-  solve_type = PJFNK
+  solve_type = NEWTON
+  automatic_scaling = true
+  line_search = basic
 
-  petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
-  petsc_options_value = ' lu       1501                mumps'
+  petsc_options_iname = '-pc_type -pc_factor_mat_solver_type -ksp_type'
+  petsc_options_value = ' lu       mumps                   preonly'
 
-  nl_rel_tol = 8.5e-08
-  nl_abs_tol = 1.5e-07
+  nl_rel_tol = 1e-2
+  nl_abs_tol = 1e-5
+  nl_max_its = 200
 
   # picard_max_its = 80
   # picard_rel_tol = 6.5e-08
@@ -239,18 +242,19 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-6
-    optimal_iterations = 5
-    growth_factor = 1.2
+    dt = 1e-6
+    optimal_iterations = 6
+    growth_factor = 1.1
     cutback_factor = 0.5
   [../]
-  dtmax = 1.0
+  dtmax = 1e-3
+  dtmin = 1e-14
   end_time = 36000.0
   # num_steps = 2
 
-  steady_state_detection = true
-  steady_state_start_time = 12.0
-  steady_state_tolerance = 9e-09
+  # steady_state_detection = true
+  # steady_state_start_time = 12.0
+  # steady_state_tolerance = 9e-09
 []
 
 [Outputs]
@@ -262,7 +266,7 @@
   csv = true
   exodus = true
   execute_on = 'TIMESTEP_END'
-  print_linear_residuals = true
+  print_linear_residuals = false
   console = true
   #interval = 2
 []
@@ -281,11 +285,13 @@
     type = ElementAverageValue
     variable = soc
     block = cathode
+    execute_on = 'TIMESTEP_END'
   [../]
   [./soe]
     type = ElementAverageValue
     variable = ce
     block = cathode
+    execute_on = 'TIMESTEP_END'
   [../]
   [./soet]
     type = ElementAverageValue
@@ -333,7 +339,7 @@
     type = CentroidMultiApp
     app_type = babblerAPP
     use_displaced_mesh = false
-    execute_on = 'TIMESTEP_END'
+    execute_on = 'TIMESTEP_BEGIN TIMESTEP_END NONLINEAR'
     # sub_cycling = true
     sub_cycling = true
     input_files =  micro.i
@@ -379,7 +385,7 @@
   [./cs_from_micro]
     type = MultiAppPostprocessorInterpolationTransfer
     multi_app = micro
-    execute_on = 'TIMESTEP_END'
+    execute_on = SAME_AS_MULTIAPP
     direction = from_multiapp
     variable = cs
     postprocessor = cs_surface
@@ -393,7 +399,7 @@
   [./soc_from_micro]
     type = MultiAppPostprocessorInterpolationTransfer
     multi_app = micro
-    execute_on = 'TIMESTEP_END'
+    execute_on = SAME_AS_MULTIAPP
     direction = from_multiapp
     variable = soc
     postprocessor = socp
