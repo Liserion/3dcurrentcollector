@@ -90,7 +90,7 @@
 [Outputs]
   execute_on = 'INITIAL TIMESTEP_END'
   print_linear_residuals = false
-  console = false
+  console = true
   csv = false
   exodus = false
   #interval = 5
@@ -100,13 +100,12 @@
   [./socp]
     type = ElementAverageValue
     variable = Cs
-    execute_on = 'INITIAL TIMESTEP_END'
+    execute_on = 'TIMESTEP_END'
   [../]
   [./cs_surface]
     type = SideAverageValue
     variable = Cs
     boundary = right
-    execute_on = 'INITIAL TIMESTEP_END'
   [../]
 
 #  [./J_from_macro]
@@ -120,39 +119,6 @@
   [../]
   [./phi2_from_macro]
     type = Receiver
-  [../]
-
-  # --- BV diagnostics (MateChoice = 4, LiFePO4) ---
-  # U_ocp is dimensionless (scaled by F/RT), matching the kernel.
-  [./U_ocp]
-    type = ParsedPostprocessor
-    execute_on = 'INITIAL TIMESTEP_END'
-    pp_names = 'cs_surface'
-    expression = '(3.114559 + 4.438792*atan(-71.7352*cs_surface + 70.85337) - 4.240252*atan(-68.5605*cs_surface + 67.730082))*(96485.3329/(8.3144598*298.15))'
-  [../]
-
-  # eta = phi1 - phi2 - U_ocp (all dimensionless)
-  [./eta_bv]
-    type = ParsedPostprocessor
-    execute_on = 'INITIAL TIMESTEP_END'
-    pp_names = 'phi1_from_macro phi2_from_macro U_ocp'
-    expression = 'phi1_from_macro - phi2_from_macro - U_ocp'
-  [../]
-
-  # BV flux J (same expression as ParticleBVPostBCKernel::BV)
-  [./J_bv]
-    type = ParsedPostprocessor
-    execute_on = 'INITIAL TIMESTEP_END'
-    pp_names = 'c2_from_macro cs_surface eta_bv'
-    expression = '2.286*sqrt((0.1714785651793526 - c2_from_macro)*c2_from_macro) * (cs_surface*exp(0.5*eta_bv) - (1 - cs_surface)*exp(-0.5*eta_bv))'
-  [../]
-
-  # eta in volts (optional sanity check)
-  [./eta_volts]
-    type = ParsedPostprocessor
-    execute_on = 'INITIAL TIMESTEP_END'
-    pp_names = 'eta_bv'
-    expression = 'eta_bv*(8.3144598*298.15/96485.3329)'
   [../]
 
   # [./mem]

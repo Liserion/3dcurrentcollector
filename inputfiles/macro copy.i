@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 3.72588
+    I = 0.0372588
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.70659
+    I = 0.0070659
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 3.72588
+    I = 0.0372588
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -332,7 +332,7 @@
     use_displaced_mesh = false
     execute_on = 'TIMESTEP_END'
     # sub_cycling = true
-    sub_cycling = false
+    sub_cycling = true
     input_files =  micro.i
     block = cathode
   [../]
@@ -342,7 +342,7 @@
   [./c2_to_micro]
     type = MultiAppVariableValueSamplePostprocessorTransfer
     multi_app = micro
-    execute_on = 'TIMESTEP_END'
+    execute_on = SAME_AS_MULTIAPP
     direction = to_multiapp
     source_variable = ce
     postprocessor = c2_from_macro
@@ -350,7 +350,7 @@
   [./phi1_to_micro]
     type = MultiAppVariableValueSamplePostprocessorTransfer
     multi_app = micro
-    execute_on = 'TIMESTEP_END'
+    execute_on = SAME_AS_MULTIAPP
     direction = to_multiapp
     source_variable = phis
     postprocessor = phi1_from_macro
@@ -358,7 +358,7 @@
   [./phi2_to_micro]
     type = MultiAppVariableValueSamplePostprocessorTransfer
     multi_app = micro
-    execute_on = 'TIMESTEP_END'
+    execute_on = SAME_AS_MULTIAPP
     direction = to_multiapp
     source_variable = phie
     postprocessor = phi2_from_macro
