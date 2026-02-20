@@ -264,7 +264,7 @@
   execute_on = 'TIMESTEP_END'
   print_linear_residuals = false
   console = true
-  file_base = macro_out_${app_name}
+  file_base = macro_out_1
   #interval = 2
 []
 
