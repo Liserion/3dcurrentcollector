@@ -5,7 +5,6 @@
   xmax = 0.5
   nx = 25
   coord_type = RSPHERICAL
-
 []
 
 [Problem]
@@ -91,7 +90,7 @@
 [Outputs]
   execute_on = 'INITIAL TIMESTEP_END'
   print_linear_residuals = false
-  console = false
+  console = true
   csv = false
   exodus = false
   #interval = 5
@@ -101,12 +100,13 @@
   [./socp]
     type = ElementAverageValue
     variable = Cs
-    execute_on = 'TIMESTEP_END'
+    execute_on = 'NONLINEAR'
   [../]
   [./cs_surface]
     type = SideAverageValue
     variable = Cs
     boundary = right
+    execute_on = 'NONLINEAR'
   [../]
 
 #  [./J_from_macro]

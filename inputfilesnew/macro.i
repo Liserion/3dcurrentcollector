@@ -87,26 +87,26 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = block_0
+    block = 0
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = block_0
+    block = 0
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
     variable = phie
     Ce =  ce
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
   ###############################
   ### For cathode
@@ -262,12 +262,9 @@
   csv = true
   exodus = true
   execute_on = 'TIMESTEP_END'
-  print_linear_residuals = true
+  print_linear_residuals = false
   console = true
   #interval = 2
-[]
-[Debug]
-  show_var_residual_norms = true
 []
 
 [Postprocessors]
@@ -333,7 +330,7 @@
     type = CentroidMultiApp
     app_type = babblerAPP
     use_displaced_mesh = false
-    execute_on = 'TIMESTEP_END'
+    execute_on = 'NONLINEAR'
     # sub_cycling = true
     sub_cycling = true
     input_files =  micro.i
@@ -379,7 +376,7 @@
   [./cs_from_micro]
     type = MultiAppPostprocessorInterpolationTransfer
     multi_app = micro
-    execute_on = 'TIMESTEP_END'
+    execute_on = SAME_AS_MULTIAPP
     direction = from_multiapp
     variable = cs
     postprocessor = cs_surface
@@ -393,7 +390,7 @@
   [./soc_from_micro]
     type = MultiAppPostprocessorInterpolationTransfer
     multi_app = micro
-    execute_on = 'TIMESTEP_END'
+    execute_on = SAME_AS_MULTIAPP
     direction = from_multiapp
     variable = soc
     postprocessor = socp
