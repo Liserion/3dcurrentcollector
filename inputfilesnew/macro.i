@@ -414,7 +414,7 @@
 #   #   power = 2
 #   #   radius = -1
 #   # [../]
-#   #########################
+ƒ#   #########################
 #  [./damage_from_micro]
 #    type = MultiAppPostprocessorInterpolationTransfer
 #    multi_app = micro
