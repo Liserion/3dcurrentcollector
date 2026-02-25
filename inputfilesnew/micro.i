@@ -24,7 +24,7 @@
     type = TimeDerivative
     variable = Cs
   [../]
-  [./diff]
+  [./csdiff]
     type = CoefDiffusion
     variable = Cs
     coef = 1.0e-5
@@ -100,13 +100,12 @@
   [./socp]
     type = ElementAverageValue
     variable = Cs
-    execute_on = 'NONLINEAR'
+    execute_on = 'TIMESTEP_END'
   [../]
   [./cs_surface]
     type = SideAverageValue
     variable = Cs
     boundary = right
-    execute_on = 'NONLINEAR'
   [../]
 
 #  [./J_from_macro]

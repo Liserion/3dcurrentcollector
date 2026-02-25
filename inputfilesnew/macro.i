@@ -328,9 +328,9 @@
 [MultiApps]
   [./micro]
     type = CentroidMultiApp
-    app_type = babblerAPP
+    app_type = babblerApp
     use_displaced_mesh = false
-    execute_on = 'NONLINEAR'
+    execute_on = 'TIMESTEP_END'
     # sub_cycling = true
     sub_cycling = true
     input_files =  micro.i
@@ -376,7 +376,7 @@
   [./cs_from_micro]
     type = MultiAppPostprocessorInterpolationTransfer
     multi_app = micro
-    execute_on = SAME_AS_MULTIAPP
+    execute_on = 'TIMESTEP_END'
     direction = from_multiapp
     variable = cs
     postprocessor = cs_surface
@@ -390,7 +390,7 @@
   [./soc_from_micro]
     type = MultiAppPostprocessorInterpolationTransfer
     multi_app = micro
-    execute_on = SAME_AS_MULTIAPP
+    execute_on = 'TIMESTEP_END'
     direction = from_multiapp
     variable = soc
     postprocessor = socp
@@ -414,7 +414,7 @@
 #   #   power = 2
 #   #   radius = -1
 #   # [../]
-ƒ#   #########################
+#   #########################
 #  [./damage_from_micro]
 #    type = MultiAppPostprocessorInterpolationTransfer
 #    multi_app = micro
