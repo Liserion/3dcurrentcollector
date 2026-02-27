@@ -77,12 +77,12 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 5.0e-5
+    dt = 1.0
     optimal_iterations = 5
-    growth_factor = 1.1
+    growth_factor = 2.0
     cutback_factor = 0.5
   [../]
-  dtmax = 1.0
+  dtmax = 1000.0
   end_time = 36000.0
   #automatic_scaling=true
 []
