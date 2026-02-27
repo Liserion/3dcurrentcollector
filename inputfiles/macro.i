@@ -248,9 +248,9 @@
   end_time = 36000.0
   # num_steps = 2
 
-  steady_state_detection = true
-  steady_state_start_time = 12.0
-  steady_state_tolerance = 9e-09
+  # steady_state_detection = true
+  # steady_state_start_time = 12.0
+  # steady_state_tolerance = 9e-09
 []
 
 [Outputs]

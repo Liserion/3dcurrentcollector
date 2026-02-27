@@ -79,7 +79,7 @@
     type = IterationAdaptiveDT
     dt = 1.0
     optimal_iterations = 5
-    growth_factor = 2.0
+    growth_factor = 1.5
     cutback_factor = 0.5
   [../]
   dtmax = 1000.0
