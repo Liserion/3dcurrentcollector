@@ -241,10 +241,10 @@
     type = IterationAdaptiveDT
     dt = 1.0e-6
     optimal_iterations = 5
-    growth_factor = 2.0
+    growth_factor = 1.2
     cutback_factor = 0.5
   [../]
-  dtmax = 1000.0
+  dtmax = 1.0
   end_time = 36000.0
   # num_steps = 2
 
