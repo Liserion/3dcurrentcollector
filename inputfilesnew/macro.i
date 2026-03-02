@@ -232,6 +232,7 @@
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
+  nl_max_its = 100
 
   # picard_max_its = 80
   # picard_rel_tol = 6.5e-08
@@ -239,7 +240,7 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-6
+    dt = 1.0e-12
     optimal_iterations = 5
     growth_factor = 1.5
     cutback_factor = 0.5
