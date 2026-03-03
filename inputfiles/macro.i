@@ -31,12 +31,28 @@
     initial_condition = 0.0874891
   [../]
   [./phis]
-    initial_condition = 133.4
+    initial_condition = 0.0
   [../]
   [./phie]
     initial_condition = 1.0e-12
   [../]
 []
+
+[ICs]
+  [./phis_separator]
+    type = ConstantIC
+    variable = phis
+    value = 0.0
+    block = 0
+  [../]
+  [./phis_cathode]
+    type = ConstantIC
+    variable = phis
+    value = 133.4
+    block = cathode
+  [../]
+[]
+
 [AuxVariables]
   [./cs]
     family = LAGRANGE
@@ -227,6 +243,7 @@
   type = Transient
   solve_type = PJFNK
   line_search = bt
+  automatic_scaling = true
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
