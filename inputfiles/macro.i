@@ -31,7 +31,6 @@
     initial_condition = 0.0874891
   [../]
   [./phis]
-    initial_condition = 0.0
   [../]
   [./phie]
     initial_condition = 1.0e-12
