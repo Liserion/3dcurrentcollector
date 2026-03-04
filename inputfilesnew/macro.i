@@ -249,7 +249,7 @@
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
-  nl_max_its = 300
+  nl_max_its = 500
 
   # picard_max_its = 80
   # picard_rel_tol = 6.5e-08
