@@ -216,12 +216,12 @@
     boundary = top
     I = 1.630
   [../]
-#  [./PhiE]
-#    type = DirichletBC
-#    variable = phie
-#    value = 0.0
-#    boundary = cat_cc
-#  [../]
+  [./PhiE]
+    type = DirichletBC
+    variable = phie
+    value = 0.0
+    boundary = cat_cc
+  [../]
   [./PhiS]
     type = DirichletBC
     variable = phis
@@ -240,7 +240,7 @@
 
 [Executioner]
   type = Transient
-  solve_type = PJFNK
+  solve_type = NEWTON
   line_search = bt
   automatic_scaling = true
 
