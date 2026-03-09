@@ -249,27 +249,27 @@
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
-  nl_max_its = 500
+  nl_max_its = 30
 
-  # picard_max_its = 80
-  # picard_rel_tol = 6.5e-08
-  # picard_abs_tol = 1.0e-07
+  picard_max_its = 80
+  picard_rel_tol = 6.5e-08
+  picard_abs_tol = 1.0e-07
 
   [./TimeStepper]
     type = IterationAdaptiveDT
     dt = 1.0e-6
-    optimal_iterations = 500
-    growth_factor = 2.0
+    optimal_iterations = 8
+    growth_factor = 1.5
     cutback_factor = 0.5
   [../]
   dtmax = 1000.0
   dtmin = 1.0e-15
-  end_time = 36000.0
+  end_time = 3600.0
   # num_steps = 2
 
-  # steady_state_detection = true
-  # steady_state_start_time = 12.0
-  # steady_state_tolerance = 9e-09
+  steady_state_detection = true
+  steady_state_start_time = 12.0
+  steady_state_tolerance = 9e-09
 []
 
 [Outputs]
