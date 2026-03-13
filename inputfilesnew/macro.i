@@ -264,8 +264,8 @@
   [../]
   dtmax = 1000.0
   dtmin = 1.0e-15
-  # end_time = 3600.0
-  num_steps = 5
+  end_time = 3600.0
+  # num_steps = 5
 
   steady_state_detection = true
   steady_state_start_time = 12.0
