@@ -240,7 +240,7 @@
 
 [Executioner]
   type = Transient
-  solve_type = PJFNK
+  solve_type = NEWTON
   line_search = bt
   automatic_scaling = true
 
@@ -258,8 +258,8 @@
   [./TimeStepper]
     type = IterationAdaptiveDT
     dt = 1.0e-6
-    optimal_iterations = 15
-    growth_factor = 1.2
+    optimal_iterations = 10
+    growth_factor = 1.5
     cutback_factor = 0.5
   [../]
   dtmax = 1000.0
