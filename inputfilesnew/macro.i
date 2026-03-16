@@ -240,7 +240,7 @@
 
 [Executioner]
   type = Transient
-  solve_type = NEWTON
+  solve_type = PJFNK
   line_search = bt
   automatic_scaling = true
 
@@ -251,9 +251,9 @@
   nl_abs_tol = 1.5e-07
   nl_max_its = 50
 
-  # picard_max_its = 20
-  # picard_rel_tol = 6.5e-08
-  # picard_abs_tol = 1.0e-07
+  picard_max_its = 10
+  picard_rel_tol = 6.5e-08
+  picard_abs_tol = 1.0e-07
 
   [./TimeStepper]
     type = IterationAdaptiveDT
