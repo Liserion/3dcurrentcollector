@@ -67,6 +67,7 @@
 [Executioner]
   type = Transient
   solve_type = PJFNK
+  line_search = none
   #solve_type = NEWTON
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
@@ -74,6 +75,7 @@
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
+  nl_max_its = 50
 
   [./TimeStepper]
     type = IterationAdaptiveDT
@@ -83,6 +85,7 @@
     cutback_factor = 0.5
   [../]
   dtmax = 1000.0
+  dtmin = 1.0e-10
   end_time = 36000.0
   #automatic_scaling=true
 []
