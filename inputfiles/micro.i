@@ -67,9 +67,9 @@
 
 [Executioner]
   type = Transient
-  solve_type = PJFNK
-  line_search = none
-  #solve_type = NEWTON
+  #solve_type = PJFNK
+  solve_type = NEWTON
+  line_search = bt
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1601               mumps'

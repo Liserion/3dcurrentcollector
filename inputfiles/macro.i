@@ -240,7 +240,7 @@
 
 [Executioner]
   type = Transient
-  solve_type = NEWTON
+  solve_type = PJFNK
   line_search = bt
   automatic_scaling = true
 
