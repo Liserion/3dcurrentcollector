@@ -203,18 +203,21 @@
     variable = ce
     boundary = top
     I = 1.630
+    RampTime = 0.01
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
     I = 0.15492
+    RampTime = 0.01
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
     I = 1.630
+    RampTime = 0.01
   [../]
   [./PhiE]
     type = DirichletBC
@@ -247,22 +250,27 @@
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
 
-  nl_rel_tol = 8.5e-08
-  nl_abs_tol = 1.5e-07
-  nl_max_its = 500
+  nl_rel_tol = 1.0e-06
+  nl_abs_tol = 1.0e-05
+  nl_max_its = 100
 
-  # picard_max_its = 10
-  # picard_rel_tol = 6.5e-08
-  # picard_abs_tol = 1.0e-07
+  # Fixed-point (Picard) iterations for macro-micro coupling
+  # Both old and new parameter names for compatibility
+  fixed_point_max_its = 20
+  fixed_point_rel_tol = 1.0e-07
+  fixed_point_abs_tol = 1.0e-07
+  picard_max_its = 20
+  picard_rel_tol = 1.0e-07
+  picard_abs_tol = 1.0e-07
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-6
-    optimal_iterations = 50
-    growth_factor = 1.1
+    dt = 1.0e-4
+    optimal_iterations = 8
+    growth_factor = 1.5
     cutback_factor = 0.5
   [../]
-  dtmax = 5.0e-6
+  dtmax = 1.0
   dtmin = 1.0e-15
   end_time = 3600.0
   # num_steps = 5
