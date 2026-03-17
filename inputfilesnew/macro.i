@@ -241,7 +241,7 @@
 [Executioner]
   type = Transient
   solve_type = NEWTON
-  line_search = none
+  line_search = bt
   automatic_scaling = true
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
