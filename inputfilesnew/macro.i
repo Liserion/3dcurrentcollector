@@ -244,7 +244,7 @@
 [Executioner]
   type = Transient
   solve_type = NEWTON
-  line_search = bt
+  line_search = none
   automatic_scaling = true
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
@@ -255,19 +255,15 @@
   nl_max_its = 100
 
   # Fixed-point (Picard) iterations for macro-micro coupling
-  # Both old and new parameter names for compatibility
   fixed_point_max_its = 20
   fixed_point_rel_tol = 1.0e-07
   fixed_point_abs_tol = 1.0e-07
-  picard_max_its = 20
-  picard_rel_tol = 1.0e-07
-  picard_abs_tol = 1.0e-07
 
   [./TimeStepper]
     type = IterationAdaptiveDT
     dt = 1.0e-4
     optimal_iterations = 8
-    growth_factor = 1.5
+    growth_factor = 1.2
     cutback_factor = 0.5
   [../]
   dtmax = 1.0
