@@ -244,20 +244,22 @@
 [Executioner]
   type = Transient
   solve_type = NEWTON
-  line_search = none
+  line_search = bt
   automatic_scaling = true
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
 
-  nl_rel_tol = 1.0e-06
-  nl_abs_tol = 1.0e-05
-  nl_max_its = 100
+  # Loose Newton tolerance — Picard iterations handle outer convergence
+  nl_rel_tol = 5.0e-04
+  nl_abs_tol = 1.5e-03
+  nl_max_its = 30
 
   # Fixed-point (Picard) iterations for macro-micro coupling
-  fixed_point_max_its = 20
-  fixed_point_rel_tol = 1.0e-07
-  fixed_point_abs_tol = 1.0e-07
+  fixed_point_max_its = 30
+  fixed_point_rel_tol = 1.0e-06
+  fixed_point_abs_tol = 1.0e-06
+  accept_on_max_fixed_point_iteration = true
 
   [./TimeStepper]
     type = IterationAdaptiveDT
