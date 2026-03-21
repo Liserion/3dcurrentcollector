@@ -33,7 +33,6 @@
   [./phis]
   [../]
   [./phie]
-    initial_condition = 1.0e-12
   [../]
 []
 
@@ -48,6 +47,18 @@
     type = ConstantIC
     variable = phis
     value = 133.4
+    block = cathode
+  [../]
+  [./phie_separator]
+    type = ConstantIC
+    variable = phie
+    value = -133.4
+    block = block_0
+  [../]
+  [./phie_cathode]
+    type = ConstantIC
+    variable = phie
+    value = 0.0
     block = cathode
   [../]
 []
