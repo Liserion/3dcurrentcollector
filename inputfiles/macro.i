@@ -31,27 +31,12 @@
     initial_condition = 0.0874891
   [../]
   [./phis]
+    initial_condition = 160.523
   [../]
   [./phie]
     initial_condition = 1.0e-12
   [../]
 []
-
-[ICs]
-  [./phis_separator]
-    type = ConstantIC
-    variable = phis
-    value = 0.0
-    block = 0
-  [../]
-  [./phis_cathode]
-    type = ConstantIC
-    variable = phis
-    value = 133.4
-    block = cathode
-  [../]
-[]
-
 [AuxVariables]
   [./cs]
     family = LAGRANGE
@@ -202,26 +187,26 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 1.630
+    I = 0.0372588
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.30883
+    I = 0.0070659
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 1.630
+    I = 0.0372588
   [../]
-  [./PhiE]
-    type = DirichletBC
-    variable = phie
-    value = 0.0
-    boundary = cat_cc
-  [../]
+#  [./PhiE]
+#    type = DirichletBC
+#    variable = phie
+#    value = 0.0
+#    boundary = cat_cc
+#  [../]
   [./PhiS]
     type = DirichletBC
     variable = phis
@@ -241,30 +226,26 @@
 [Executioner]
   type = Transient
   solve_type = PJFNK
-  line_search = bt
-  automatic_scaling = true
 
-  petsc_options_iname = '-pc_type -ksp_gmres_restart'
-  petsc_options_value = ' hypre    1501'
+  petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
+  petsc_options_value = ' lu       1501                mumps'
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
-  nl_max_its = 200
 
-  # picard_max_its = 20
+  # picard_max_its = 80
   # picard_rel_tol = 6.5e-08
   # picard_abs_tol = 1.0e-07
 
   [./TimeStepper]
     type = IterationAdaptiveDT
     dt = 1.0e-6
-    optimal_iterations = 20
+    optimal_iterations = 5
     growth_factor = 1.2
     cutback_factor = 0.5
   [../]
-  dtmax = 1000.0
-  dtmin = 1.0e-15
-  end_time = 3600.0
+  dtmax = 1.0
+  end_time = 36000.0
   # num_steps = 2
 
   steady_state_detection = true
@@ -282,7 +263,7 @@
   exodus = true
   execute_on = 'TIMESTEP_END'
   print_linear_residuals = false
-  console = true
+  console = false
   #interval = 2
 []
 

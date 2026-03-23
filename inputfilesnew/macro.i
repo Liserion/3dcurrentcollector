@@ -31,38 +31,12 @@
     initial_condition = 0.0874891
   [../]
   [./phis]
+    initial_condition = 160.523
   [../]
   [./phie]
+    initial_condition = 1.0e-12
   [../]
 []
-
-[ICs]
-  [./phis_separator]
-    type = ConstantIC
-    variable = phis
-    value = 0.0
-    block = block_0
-  [../]
-  [./phis_cathode]
-    type = ConstantIC
-    variable = phis
-    value = 133.4
-    block = cathode
-  [../]
-  [./phie_separator]
-    type = ConstantIC
-    variable = phie
-    value = -133.4
-    block = block_0
-  [../]
-  [./phie_cathode]
-    type = ConstantIC
-    variable = phie
-    value = 0.0
-    block = cathode
-  [../]
-[]
-
 [AuxVariables]
   [./cs]
     family = LAGRANGE
@@ -113,26 +87,26 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = block_0
+    block = 0
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = block_0
+    block = 0
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
     variable = phie
     Ce =  ce
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
   ###############################
   ### For cathode
@@ -213,29 +187,26 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 1.630
-    RampTime = 0.01
+    I = 0.0372588
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.15492
-    RampTime = 0.01
+    I = 0.0070659
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 1.630
-    RampTime = 0.01
+    I = 0.0372588
   [../]
-  [./PhiE]
-    type = DirichletBC
-    variable = phie
-    value = 0.0
-    boundary = cat_cc
-  [../]
+#  [./PhiE]
+#    type = DirichletBC
+#    variable = phie
+#    value = 0.0
+#    boundary = cat_cc
+#  [../]
   [./PhiS]
     type = DirichletBC
     variable = phis
@@ -254,35 +225,28 @@
 
 [Executioner]
   type = Transient
-  solve_type = NEWTON
-  line_search = bt
-  automatic_scaling = true
+  solve_type = PJFNK
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
 
-  # Loose Newton — let Picard iterations handle outer convergence
-  nl_rel_tol = 5.0e-01
-  nl_abs_tol = 5.0e-03
-  nl_max_its = 20
+  nl_rel_tol = 8.5e-08
+  nl_abs_tol = 1.5e-07
 
-  # Fixed-point (Picard) iterations for macro-micro coupling
-  fixed_point_max_its = 30
-  fixed_point_rel_tol = 1.0e-06
-  fixed_point_abs_tol = 1.0e-06
-  accept_on_max_fixed_point_iteration = true
+  # picard_max_its = 80
+  # picard_rel_tol = 6.5e-08
+  # picard_abs_tol = 1.0e-07
 
   [./TimeStepper]
     type = IterationAdaptiveDT
     dt = 1.0e-6
-    optimal_iterations = 6
-    growth_factor = 1.1
+    optimal_iterations = 5
+    growth_factor = 1.2
     cutback_factor = 0.5
   [../]
   dtmax = 1.0
-  dtmin = 1.0e-15
-  end_time = 3600.0
-  # num_steps = 5
+  end_time = 36000.0
+  # num_steps = 2
 
   steady_state_detection = true
   steady_state_start_time = 12.0
@@ -299,7 +263,7 @@
   exodus = true
   execute_on = 'TIMESTEP_END'
   print_linear_residuals = false
-  console = true
+  console = false
   #interval = 2
 []
 
