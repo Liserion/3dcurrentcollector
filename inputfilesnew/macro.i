@@ -87,26 +87,26 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = 0
+    block = block_0
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = 0
+    block = block_0
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = 0
+    block = block_0
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
     variable = phie
     Ce =  ce
     eps = 1.0
-    block = 0
+    block = block_0
   [../]
   ###############################
   ### For cathode
@@ -244,7 +244,7 @@
     growth_factor = 1.2
     cutback_factor = 0.5
   [../]
-  dtmax = 1.0
+  dtmax = 10.0
   end_time = 36000.0
   # num_steps = 2
 
