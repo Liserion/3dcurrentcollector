@@ -244,7 +244,7 @@
     growth_factor = 1.2
     cutback_factor = 0.5
   [../]
-  dtmax = 1.0
+  dtmax = 10.0
   end_time = 36000.0
   # num_steps = 2
 
