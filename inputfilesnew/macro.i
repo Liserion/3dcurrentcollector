@@ -41,13 +41,13 @@
   [./cs]
     family = LAGRANGE
     order = FIRST
-    initial_condition = 0.5
+    initial_condition = 0.05 # fully charged
     block = cathode
   [../]
   [./soc]
     family = LAGRANGE
     order = FIRST
-    initial_condition = 0.5
+    initial_condition = 0.05 # fully charged
     block = cathode
   [../]
 #   [./J]
@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.0372588
+    I = 2.799 # 1C-rate
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.0070659
+    I = 0.463 # 1C-rate
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.0372588
+    I = 2.799 # 1C-rate
   [../]
 #  [./PhiE]
 #    type = DirichletBC
