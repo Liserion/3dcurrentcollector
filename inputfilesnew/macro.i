@@ -241,7 +241,6 @@
   type = Transient
   solve_type = NEWTON
   line_search = bt
-  automatic_scaling = true
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
@@ -252,7 +251,7 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-8
+    dt = 1.0e-6
     optimal_iterations = 5
     growth_factor = 1.2
     cutback_factor = 0.5
