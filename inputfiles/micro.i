@@ -16,7 +16,7 @@
   [./Cs]
     family = LAGRANGE
     order = FIRST
-    initial_condition = 0.5
+    initial_condition = 0.05
   [../]
 []
 
