@@ -31,6 +31,7 @@
     initial_condition = 0.0874891
   [../]
   [./phis]
+    initial_condition = 160.523
   [../]
   [./phie]
     initial_condition = 1.0e-12
@@ -40,13 +41,13 @@
   [./cs]
     family = LAGRANGE
     order = FIRST
-    initial_condition = 0.05
+    initial_condition = 0.5
     block = cathode
   [../]
   [./soc]
     family = LAGRANGE
     order = FIRST
-    initial_condition = 0.05
+    initial_condition = 0.5
     block = cathode
   [../]
 #   [./J]
@@ -79,21 +80,6 @@
     family = LAGRANGE
     order = FIRST
     initial_condition = 1.0e-12
-  [../]
-[]
-
-[ICs]
-  [./phis_separator]
-    type = ConstantIC
-    variable = phis
-    value = 0.0
-    block = 0
-  [../]
-  [./phis_cathode]
-    type = ConstantIC
-    variable = phis
-    value = 133.4
-    block = cathode
   [../]
 []
 
@@ -201,26 +187,26 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 1.630
+    I = 0.0372588
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.30883
+    I = 0.0070659
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 1.630
+    I = 0.0372588
   [../]
-  [./PhiE]
-    type = DirichletBC
-    variable = phie
-    value = 0.0
-    boundary = cat_cc
-  [../]
+#  [./PhiE]
+#    type = DirichletBC
+#    variable = phie
+#    value = 0.0
+#    boundary = cat_cc
+#  [../]
   [./PhiS]
     type = DirichletBC
     variable = phis
@@ -239,15 +225,13 @@
 
 [Executioner]
   type = Transient
-  solve_type = NEWTON
-  line_search = bt
+  solve_type = PJFNK
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
-  nl_max_its = 100
 
   [./TimeStepper]
     type = IterationAdaptiveDT
@@ -257,8 +241,11 @@
     cutback_factor = 0.5
   [../]
   dtmax = 10.0
-  dtmin = 1.0e-15
-  end_time = 3600.0
+  end_time = 36000.0
+
+  steady_state_detection = true
+  steady_state_start_time = 12.0
+  steady_state_tolerance = 9e-09
 []
 
 [Outputs]
