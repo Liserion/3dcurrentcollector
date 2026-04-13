@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 1.299717
+    I = 0.389915
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.246484
+    I = 0.073945
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 1.299717
+    I = 0.389915
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -241,7 +241,7 @@
     cutback_factor = 0.5
   [../]
   dtmax = 10.0
-  end_time = 3600.0
+  end_time = 12000.0
 
   steady_state_detection = true
   steady_state_start_time = 12.0
