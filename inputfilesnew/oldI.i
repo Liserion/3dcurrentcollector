@@ -87,26 +87,26 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = 0
+    block = block_0
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = 0
+    block = block_0
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = 0
+    block = block_0
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
     variable = phie
     Ce =  ce
     eps = 1.0
-    block = 0
+    block = block_0
   [../]
   ###############################
   ### For cathode
@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 2.599434
+    I = 0.0640048
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.492967
+    I = 0.0106001
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 2.599434
+    I = 0.0640048
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -225,7 +225,8 @@
 
 [Executioner]
   type = Transient
-  solve_type = PJFNK
+  solve_type = NEWTON
+  line_search = bt
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
@@ -241,7 +242,7 @@
     cutback_factor = 0.5
   [../]
   dtmax = 10.0
-  end_time = 3600.0
+  end_time = 36000.0
 
   steady_state_detection = true
   steady_state_start_time = 12.0
