@@ -231,15 +231,16 @@
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
 
-  nl_rel_tol = 8.5e-08
-  nl_abs_tol = 1.5e-07
+  nl_rel_tol = 1e-06
+  nl_abs_tol = 1e-06
+  nl_max_its = 20
 
   [./TimeStepper]
     type = IterationAdaptiveDT
     dt = 1.0e-6
-    optimal_iterations = 5
+    optimal_iterations = 8
     growth_factor = 1.2
-    cutback_factor = 0.5
+    cutback_factor = 0.7
   [../]
   dtmax = 10.0
   end_time = 12000.0
