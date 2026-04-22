@@ -4,12 +4,12 @@
     file = 'closed.msh'
   []
 
-  # Scale to match old mesh dimensions (336x336x228 µm)
+  # Uniform scale: cathode z = 1.504 units → 170 µm, factor = 113.03
   [./scale]
     type = TransformGenerator
     input = import
     transform = SCALE
-    vector_value = '172.3077 172.3077 131.4879'
+    vector_value = '113.03 113.03 113.03'
   []
 
   [./catcc]
