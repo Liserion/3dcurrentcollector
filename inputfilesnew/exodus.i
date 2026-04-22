@@ -4,9 +4,17 @@
     file = 'closed.msh'
   []
 
+  # Scale to match old mesh dimensions (336x336x228 µm)
+  [./scale]
+    type = TransformGenerator
+    input = import
+    transform = SCALE
+    vector_value = '172.3077 172.3077 131.4879'
+  []
+
   [./catcc]
     type = SideSetsBetweenSubdomainsGenerator
-    input = import
+    input = scale
     primary_block = 'cathode'
     paired_block  = 'cat_inside'
     new_boundary  = cat_cc
