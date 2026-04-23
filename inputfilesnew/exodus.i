@@ -16,8 +16,8 @@
     type = SideSetsBetweenSubdomainsGenerator
     input = scale
     primary_block = 'cathode'
-    paired_block  = 'cat_inside'
-    new_boundary  = cat_cc
+    paired_block = 'cat_inside'
+    new_boundary = 'cat_cc'
   []
 
   [./strip_cat_inside]
@@ -25,6 +25,7 @@
     input = catcc
     block = 'cat_inside'
   []
+
 []
 
 [Variables]
