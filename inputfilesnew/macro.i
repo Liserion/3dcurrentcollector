@@ -258,7 +258,7 @@
   exodus = true
   execute_on = 'TIMESTEP_END'
   print_linear_residuals = false
-  console = false
+  console = true
   #interval = 2
 []
 
