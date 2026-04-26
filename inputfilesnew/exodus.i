@@ -1,7 +1,7 @@
 [Mesh]
   [./import]
     type = FileMeshGenerator
-    file = 'closed.msh'
+    file = 'open.msh'
   []
 
   # Uniform scale: cathode z = 1.504 units → 170 µm, factor = 113.03
@@ -12,9 +12,16 @@
     vector_value = '113.03 113.03 113.03'
   []
 
+  [./shift]
+    type = TransformGenerator
+    input = scale
+    transform = TRANSLATE
+    vector_value = '110.77 110.77 101.73'
+  []
+
   [./catcc]
     type = SideSetsBetweenSubdomainsGenerator
-    input = scale
+    input = shift
     primary_block = 'cathode'
     paired_block = 'cat_inside'
     new_boundary = 'cat_cc'

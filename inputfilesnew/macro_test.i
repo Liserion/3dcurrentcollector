@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.107029
+    I = 0.543551
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.051770
+    I = 0.250333
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.107029
+    I = 0.543551
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -320,44 +320,43 @@
 ###################################################
 ### For the two-level framework
 ###################################################
-[MultiApps]
-  [./micro]
-    type = CentroidMultiApp
-    app_type = babblerApp
-    use_displaced_mesh = false
-    execute_on = 'TIMESTEP_END'
-    # sub_cycling = true
-    sub_cycling = true
-    input_files =  micro.i
-    block = cathode
-  [../]
-[]
+#[MultiApps]
+#  [./micro]
+#    type = CentroidMultiApp
+#    app_type = babblerApp
+#    use_displaced_mesh = false
+#    execute_on = 'TIMESTEP_END'
+#    sub_cycling = true
+#    input_files =  micro.i
+#    block = cathode
+#  [../]
+#[]
 
- [Transfers]
-  [./c2_to_micro]
-    type = MultiAppVariableValueSamplePostprocessorTransfer
-    multi_app = micro
-    execute_on = SAME_AS_MULTIAPP
-    direction = to_multiapp
-    source_variable = ce
-    postprocessor = c2_from_macro
-  [../]
-  [./phi1_to_micro]
-    type = MultiAppVariableValueSamplePostprocessorTransfer
-    multi_app = micro
-    execute_on = SAME_AS_MULTIAPP
-    direction = to_multiapp
-    source_variable = phis
-    postprocessor = phi1_from_macro
-  [../]
-  [./phi2_to_micro]
-    type = MultiAppVariableValueSamplePostprocessorTransfer
-    multi_app = micro
-    execute_on = SAME_AS_MULTIAPP
-    direction = to_multiapp
-    source_variable = phie
-    postprocessor = phi2_from_macro
-  [../]
+# [Transfers]
+#  [./c2_to_micro]
+#    type = MultiAppVariableValueSamplePostprocessorTransfer
+#    multi_app = micro
+#    execute_on = SAME_AS_MULTIAPP
+#    direction = to_multiapp
+#    source_variable = ce
+#    postprocessor = c2_from_macro
+#  [../]
+#  [./phi1_to_micro]
+#    type = MultiAppVariableValueSamplePostprocessorTransfer
+#    multi_app = micro
+#    execute_on = SAME_AS_MULTIAPP
+#    direction = to_multiapp
+#    source_variable = phis
+#    postprocessor = phi1_from_macro
+#  [../]
+#  [./phi2_to_micro]
+#    type = MultiAppVariableValueSamplePostprocessorTransfer
+#    multi_app = micro
+#    execute_on = SAME_AS_MULTIAPP
+#    direction = to_multiapp
+#    source_variable = phie
+#    postprocessor = phi2_from_macro
+#  [../]
 #  [./J_to_micro]
 #      type = MultiAppVariableValueSamplePostprocessorTransfer
 #      multi_app = micro
@@ -368,33 +367,32 @@
 #    [../]
 #   #####################################
 #   ## Cs_surface to macro
-  [./cs_from_micro]
-    type = MultiAppPostprocessorInterpolationTransfer
-    multi_app = micro
-    execute_on = 'TIMESTEP_END'
-    direction = from_multiapp
-    variable = cs
-    postprocessor = cs_surface
-    displaced_source_mesh = false
-    displaced_target_mesh = false
-    num_points = 3
-    power = 2
-    radius = -1
-  [../]
-  ## Cs_surface to macro
-  [./soc_from_micro]
-    type = MultiAppPostprocessorInterpolationTransfer
-    multi_app = micro
-    execute_on = 'TIMESTEP_END'
-    direction = from_multiapp
-    variable = soc
-    postprocessor = socp
-    displaced_source_mesh = false
-    displaced_target_mesh = false
-    num_points = 3
-    power = 2
-    radius = -1
-  [../]
+#  [./cs_from_micro]
+#    type = MultiAppPostprocessorInterpolationTransfer
+#    multi_app = micro
+#    execute_on = 'TIMESTEP_END'
+#    direction = from_multiapp
+#    variable = cs
+#    postprocessor = cs_surface
+#    displaced_source_mesh = false
+#    displaced_target_mesh = false
+#    num_points = 3
+#    power = 2
+#    radius = -1
+#  [../]
+#  [./soc_from_micro]
+#    type = MultiAppPostprocessorInterpolationTransfer
+#    multi_app = micro
+#    execute_on = 'TIMESTEP_END'
+#    direction = from_multiapp
+#    variable = soc
+#    postprocessor = socp
+#    displaced_source_mesh = false
+#    displaced_target_mesh = false
+#    num_points = 3
+#    power = 2
+#    radius = -1
+#  [../]
 #   ###########################
 #   # [./sigmaH_from_micro]
 #   #   type = MultiAppPostprocessorInterpolationTransfer
@@ -423,4 +421,4 @@
 #    power = 2
 #    radius = -1
 #  [../]
-[]
+#[]
