@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.389915
+    I = 5.037702
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.073945
+    I = 0.955369
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.389915
+    I = 5.037702
   [../]
 #  [./PhiE]
 #    type = DirichletBC
