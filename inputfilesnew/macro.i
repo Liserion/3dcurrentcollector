@@ -237,10 +237,10 @@
     type = IterationAdaptiveDT
     dt = 1.0e-6
     optimal_iterations = 5
-    growth_factor = 1.2
+    growth_factor = 1.1
     cutback_factor = 0.5
   [../]
-  dtmax = 10.0
+  dtmax = 5.0
   end_time = 3600.0
 
   steady_state_detection = true
