@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.107029
+    I = 0.416996
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.023954
+    I = 0.094383
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.107029
+    I = 0.416996
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -225,22 +225,25 @@
 
 [Executioner]
   type = Transient
-  solve_type = PJFNK
+  solve_type = NEWTON
+  line_search = bt
 
-  petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
-  petsc_options_value = ' lu       1501                mumps'
+  petsc_options_iname = '-pc_type -pc_factor_mat_solver_type -snes_linesearch_type -snes_max_it -ksp_max_it'
+  petsc_options_value = ' lu       mumps                      bt                    50           200'
 
-  nl_rel_tol = 8.5e-08
-  nl_abs_tol = 1.5e-07
+  nl_rel_tol = 1e-06
+  nl_abs_tol = 1e-06
+  nl_max_its = 50
 
   [./TimeStepper]
     type = IterationAdaptiveDT
     dt = 1.0e-6
-    optimal_iterations = 5
-    growth_factor = 1.2
-    cutback_factor = 0.5
+    optimal_iterations = 8
+    growth_factor = 1.1
+    cutback_factor = 0.4
   [../]
-  dtmax = 10.0
+  dtmin = 1.0e-12
+  dtmax = 5.0
   end_time = 12000.0
 
   steady_state_detection = true

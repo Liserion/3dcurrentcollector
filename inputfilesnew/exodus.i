@@ -1,7 +1,7 @@
 [Mesh]
   [./import]
     type = FileMeshGenerator
-    file = 'voxel_mesh.msh'
+    file = 'open.msh'
   []
 
   # Uniform scale: cathode z = 1.504 units → 170 µm, factor = 113.03
