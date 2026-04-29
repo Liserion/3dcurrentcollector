@@ -67,26 +67,22 @@
 
 [Executioner]
   type = Transient
-  #solve_type = PJFNK
-  solve_type = NEWTON
-  line_search = none
+  solve_type = PJFNK
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1601               mumps'
 
-  nl_rel_tol = 1.0e-04
-  nl_abs_tol = 1.0e-05
-  nl_max_its = 50
+  nl_rel_tol = 8.5e-08
+  nl_abs_tol = 1.5e-07
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0
+    dt = 5.0e-5
     optimal_iterations = 5
-    growth_factor = 1.5
+    growth_factor = 1.1
     cutback_factor = 0.5
   [../]
-  dtmax = 1000.0
-  dtmin = 1.0e-10
+  dtmax = 1.0
   end_time = 36000.0
   #automatic_scaling=true
 []
