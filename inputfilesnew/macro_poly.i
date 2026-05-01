@@ -19,7 +19,7 @@
     initial_condition = 0.0874891
   [../]
   [./phis]
-    initial_condition = 160.523
+    initial_condition = 133.4
   [../]
   [./phie]
     initial_condition = 1.0e-12
@@ -112,7 +112,7 @@
     variable = ce
     PhiS = phis
     PhiE = phie
-    Cs = cs
+    Cs = cs_avg
     eps = 0.2
     Damage = Damage
     SigmaH = SigmaH
@@ -123,7 +123,7 @@
     variable = phis
     Ce = ce
     PhiE = phie
-    Cs = cs
+    Cs = cs_avg
     eps = 0.2
     Damage = Damage
     SigmaH = SigmaH
@@ -134,7 +134,7 @@
     variable = phie
     Ce = ce
     PhiS = phis
-    Cs = cs
+    Cs = cs_avg
     eps = 0.2
     Damage = Damage
     SigmaH = SigmaH
@@ -153,7 +153,7 @@
     Ce = ce
     PhiS = phis
     PhiE = phie
-    Cs = cs
+    Cs = cs_avg
     eps = 0.2
     Damage = Damage
     SigmaH = SigmaH
@@ -241,10 +241,10 @@
 
 [Executioner]
   type = Transient
-  solve_type = PJFNK
+  solve_type = NEWTON
 
-  petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
-  petsc_options_value = ' lu       1501                mumps'
+  petsc_options_iname = '-pc_type -pc_factor_mat_solver_type'
+  petsc_options_value = ' lu       mumps'
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
