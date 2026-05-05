@@ -78,26 +78,26 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = block_0
+    block = 0
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = block_0
+    block = 0
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
     variable = phie
     Ce = ce
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
 
   # ---- Cathode (ce, phis, phie — same as original) ----
@@ -241,10 +241,10 @@
 
 [Executioner]
   type = Transient
-  solve_type = NEWTON
+  solve_type = PJFNK
 
-  petsc_options_iname = '-pc_type -pc_factor_mat_solver_type'
-  petsc_options_value = ' lu       mumps'
+  petsc_options_iname = '-pc_type -sub_pc_type -ksp_gmres_restart'
+  petsc_options_value = ' bjacobi  ilu          300'
 
   nl_rel_tol = 8.5e-08
   nl_abs_tol = 1.5e-07
