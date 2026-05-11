@@ -31,7 +31,7 @@
     initial_condition = 0.0874891
   [../]
   [./phis]
-    initial_condition = 160.523
+    initial_condition = 133.4
   [../]
   [./phie]
     initial_condition = 1.0e-12
@@ -193,7 +193,7 @@
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.08924
+    I = 0.342145
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
