@@ -87,26 +87,26 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = 0
+    block = 'block_0'
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = 0
+    block = 'block_0'
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = 0
+    block = 'block_0'
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
     variable = phie
     Ce =  ce
     eps = 1.0
-    block = 0
+    block = 'block_0'
   [../]
   ###############################
   ### For cathode
@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 1.063448
+    I = 0.380671
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.342145
+    I = 0.602842
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 1.063448
+    I = 0.380671
   [../]
 #  [./PhiE]
 #    type = DirichletBC

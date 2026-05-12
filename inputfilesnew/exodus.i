@@ -1,7 +1,7 @@
 [Mesh]
   [./import]
     type = FileMeshGenerator
-    file = 'open.msh'
+    file = 'wire_mesh.msh'
   []
 
   # Uniform scale: cathode z = 1.504 units → 170 µm, factor = 113.03
