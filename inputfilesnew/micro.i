@@ -89,7 +89,7 @@
 [Outputs]
   execute_on = 'INITIAL TIMESTEP_END'
   print_linear_residuals = false
-  console = true
+  console = false
   csv = false
   exodus = false
   #interval = 5
