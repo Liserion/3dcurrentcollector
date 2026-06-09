@@ -55,6 +55,7 @@
 []
 
 [Outputs]
+  file_base = 'macro_in'
   [./exodus_out]
     type = Exodus
     execute_on = 'FINAL'

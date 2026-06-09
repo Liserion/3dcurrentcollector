@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.359986
+    I = 0.479473
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.154574
+    I = 0.191980
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.359986
+    I = 0.479473
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -230,14 +230,14 @@
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
 
-  nl_rel_tol = 8.5e-08
-  nl_abs_tol = 1.5e-07
+  nl_rel_tol = 1e-04
+  nl_abs_tol = 1e-02
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-6
+    dt = 1.0e-3
     optimal_iterations = 5
-    growth_factor = 1.2
+    growth_factor = 2.0
     cutback_factor = 0.5
   [../]
   dtmax = 1.0
