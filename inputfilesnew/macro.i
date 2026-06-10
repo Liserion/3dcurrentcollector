@@ -193,7 +193,7 @@
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.188066
+    I = 0.336367 # = 0.638467 * top_area / catcc_area (1.749004e5 / 3.319834e5); rebalance after every remesh!
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
@@ -233,11 +233,11 @@
   petsc_options_value = ' lu       1501                mumps'
 
   nl_rel_tol = 1e-04
-  nl_abs_tol = 1e-02
+  nl_abs_tol = 1e-05
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-6
+    dt = 1.0e-4
     optimal_iterations = 5
     growth_factor = 1.5
     cutback_factor = 0.5
