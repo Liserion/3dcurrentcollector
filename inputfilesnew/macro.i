@@ -226,6 +226,8 @@
 [Executioner]
   type = Transient
   solve_type = PJFNK
+  line_search = bt
+  nl_max_its = 30
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
@@ -235,9 +237,9 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-3
+    dt = 1.0e-6
     optimal_iterations = 5
-    growth_factor = 2.0
+    growth_factor = 1.5
     cutback_factor = 0.5
   [../]
   dtmax = 1.0
