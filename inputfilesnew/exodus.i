@@ -60,4 +60,30 @@
     type = Exodus
     execute_on = 'FINAL'
   []
+  [./console_pps]
+    type = Console
+    execute_postprocessors_on = 'INITIAL'
+  []
+[]
+
+# Print the geometry quantities needed to balance the BCs of macro.i.
+# After running exodus.i, the console will show:
+#   top_area, catcc_area, cathode_vol
+# Then: I_top_target × A_top must equal I_phis_target × A_catcc.
+[Postprocessors]
+  [./top_area]
+    type = AreaPostprocessor
+    boundary = 'top'
+    execute_on = 'INITIAL'
+  [../]
+  [./catcc_area]
+    type = AreaPostprocessor
+    boundary = 'cat_cc'
+    execute_on = 'INITIAL'
+  [../]
+  [./cathode_vol]
+    type = VolumePostprocessor
+    block = 'cathode'
+    execute_on = 'INITIAL'
+  [../]
 []
