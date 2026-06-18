@@ -237,7 +237,7 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-4
+    dt = 1.0e-8     # very small initial dt to let Newton ramp η gradually at higher current
     optimal_iterations = 5
     growth_factor = 1.5
     cutback_factor = 0.5

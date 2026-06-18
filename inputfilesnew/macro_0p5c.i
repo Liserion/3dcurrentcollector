@@ -237,7 +237,7 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-4
+    dt = 1.0e-7     # smaller initial dt — higher rate has steeper startup transient
     optimal_iterations = 5
     growth_factor = 1.5
     cutback_factor = 0.5
