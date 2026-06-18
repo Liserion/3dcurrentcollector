@@ -31,7 +31,7 @@
     initial_condition = 0.0874891
   [../]
   [./phis]
-    initial_condition = 160.523
+    initial_condition = 133.4
   [../]
   [./phie]
     initial_condition = 1.0e-12
@@ -87,26 +87,26 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = 0
+    block = 'block_0'
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = 0
+    block = 'block_0'
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = 0
+    block = 'block_0'
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
     variable = phie
     Ce =  ce
     eps = 1.0
-    block = 0
+    block = 'block_0'
   [../]
   ###############################
   ### For cathode
@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.389916    # actual 0.3C; was 1.299721 (effectively ~1C, mislabeled)
+    I = 1.180    # 0.5C; = 5/3 × 0.7079 (the 0.3C value, scaled); top_area=1.14982e5
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.175124    # actual 0.3C; was 0.583747; balanced with top
+    I = 0.5013    # 0.5C; = 5/3 × 0.3008 (balanced: I_top × top_area / catcc_area)
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.389916
+    I = 1.180
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -260,7 +260,7 @@
   exodus = true
   execute_on = 'TIMESTEP_END'
   print_linear_residuals = false
-  console = false
+  console = true
   #interval = 2
 []
 
