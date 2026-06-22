@@ -187,20 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.006459    # TRUE 1C; derived from cathode_capacity/(3600 × top_area × (1-t0))
-                    # OLD mesh: cathode_vol=1.893e7, top_area=1.129e5, catcc_area=4.106e5
+    I = 1.299721    # historical working value (gives full LFP discharge curve over ~3000–5000s sim time)
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.001776    # TRUE 1C; balanced: I_top × top_area / catcc_area
+    I = 0.583747    # balanced for old mesh: I_top × top_area / catcc_area
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.006459
+    I = 1.299721
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -243,11 +242,11 @@
     growth_factor = 1.5
     cutback_factor = 0.5
   [../]
-  dtmax = 5.0
-  end_time = 10800.0    # 3 hours simulated — enough for full discharge at true 1C
+  dtmax = 1.0
+  end_time = 12000.0
 
   steady_state_detection = true
-  steady_state_start_time = 50.0
+  steady_state_start_time = 12.0
   steady_state_tolerance = 9e-09
 []
 

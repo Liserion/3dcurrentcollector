@@ -187,20 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.007179    # TRUE 1C; derived from cathode_capacity/(3600 × top_area × (1-t0))
-                    # corrected — previous 2.3597 was ~330C effective, no physical solution
+    I = 2.3597    # 1C = 10/3 × 0.3C value (0.7079); top_area=1.14982e5
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.003050    # TRUE 1C; balanced with top
+    I = 1.0027    # 1C balanced: I_top × top_area / catcc_area
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.007179
+    I = 2.3597
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -238,16 +237,16 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-4    # BCs are now physically reasonable; no need for sub-microsecond dt
+    dt = 1.0e-6    # small initial dt for steep BV startup transient at 1C
     optimal_iterations = 5
-    growth_factor = 1.5
+    growth_factor = 1.2
     cutback_factor = 0.5
   [../]
-  dtmax = 5.0
-  end_time = 10800.0    # 3 hours simulated — enough for full discharge at true 1C
+  dtmax = 1.0
+  end_time = 12000.0
 
   steady_state_detection = true
-  steady_state_start_time = 50.0
+  steady_state_start_time = 12.0
   steady_state_tolerance = 9e-09
 []
 
