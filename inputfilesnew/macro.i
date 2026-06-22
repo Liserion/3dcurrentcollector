@@ -187,19 +187,20 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.7079    # 0.3C; top_area=1.14982e5, cathode_vol=2.142625e7
+    I = 0.002154    # TRUE 0.3C; derived from cathode_capacity/(3600 × top_area × (1-t0))
+                    # cathode_vol=2.142625e7, top_area=1.14982e5; corrected — previous 0.7079 was ~98C effective
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.3008    # 0.3C; catcc_area=2.706531e5 (= I_top * top_area / catcc_area, balanced)
+    I = 0.000915    # TRUE 0.3C; balanced: I_top × top_area / catcc_area; catcc_area=2.706531e5
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.7079
+    I = 0.002154    # TRUE 0.3C (matches flux_c)
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -242,11 +243,11 @@
     growth_factor = 1.5
     cutback_factor = 0.5
   [../]
-  dtmax = 1.0
-  end_time = 12000.0
+  dtmax = 10.0     # bigger dt OK at low real C-rate
+  end_time = 36000.0    # 10 hours simulated — enough for full discharge at true 0.3C
 
   steady_state_detection = true
-  steady_state_start_time = 12.0
+  steady_state_start_time = 100.0
   steady_state_tolerance = 9e-09
 []
 
