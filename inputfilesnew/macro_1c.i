@@ -237,9 +237,9 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-6    # small initial dt for steep BV startup transient at 1C
+    dt = 1.0e-4    # same as 0.4C run that completed successfully
     optimal_iterations = 5
-    growth_factor = 1.2
+    growth_factor = 1.5
     cutback_factor = 0.5
   [../]
   dtmax = 1.0
