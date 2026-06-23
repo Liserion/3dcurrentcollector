@@ -187,20 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.7079    # 0.3C (gives physically-reasonable discharge curve)
-                  # top_area=1.14982e5, cathode_vol=2.142625e7
+    I = 0.6954    # 0.3C (refined mesh: top_area=1.14982e5, cathode_vol=2.104789e7)
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.3008    # 0.3C; balanced: I_top × top_area / catcc_area; catcc_area=2.706531e5
+    I = 0.2888    # 0.3C; balanced: I_top × top_area / catcc_area; catcc_area=2.768482e5
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.7079
+    I = 0.6954
   [../]
 #  [./PhiE]
 #    type = DirichletBC
