@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 2.3180    # 1C (refined mesh: top_area=1.14982e5, cathode_vol=2.104789e7)
+    I = 2.3278    # 1C (refined 12.5k mesh: top=1.14982e5, vol=2.113731e7)
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.9627    # 1C balanced: I_top × top_area / catcc_area; catcc_area=2.768482e5
+    I = 0.9719    # 1C balanced; catcc_area=2.753997e5
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 2.3180
+    I = 2.3278
   [../]
 #  [./PhiE]
 #    type = DirichletBC
