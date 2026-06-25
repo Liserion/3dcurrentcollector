@@ -187,19 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 1.180    # 0.5C; = 5/3 × 0.7079 (the 0.3C value, scaled); top_area=1.14982e5
+    I = 1.1640    # 0.5C; = 5/3 × 0.3C value (refined 12.5k mesh: top=1.14982e5, vol=2.113731e7)
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.5013    # 0.5C; = 5/3 × 0.3008 (balanced: I_top × top_area / catcc_area)
+    I = 0.4860    # 0.5C balanced balanced; catcc_area=2.753997e5
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 1.180
+    I = 1.1640
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -237,7 +237,7 @@
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-7     # smaller initial dt — higher rate has steeper startup transient
+    dt = 1.0e-4
     optimal_iterations = 5
     growth_factor = 1.5
     cutback_factor = 0.5
