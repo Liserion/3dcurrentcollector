@@ -187,20 +187,20 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 2.097    # nominal 1C with fast-cell params (geometry-fixed mesh: wires-touch-bottom, no dead zone)
+    I = 112.4    # TRUE 1C with fast-cell params (scaled 53.6x from naive value) (geometry-fixed mesh: wires-touch-bottom, no dead zone)
                   # top=1.14982e5, vol=1.904049e7, catcc=2.705984e5
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.891    # 1C balanced balanced
+    I = 47.77    # TRUE 1C balanced
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 2.097
+    I = 112.4
   [../]
 #  [./PhiE]
 #    type = DirichletBC
