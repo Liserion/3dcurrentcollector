@@ -4,11 +4,11 @@
   dim = 1
   xmax = 0.5
   nx = 25
+  coord_type = RSPHERICAL
 []
 
 [Problem]
   type = FEProblem
-  coord_type = RSPHERICAL
 []
 
 [Variables]
