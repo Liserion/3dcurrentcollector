@@ -87,14 +87,14 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = block_0
+    block = 0
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
@@ -106,7 +106,7 @@
     variable = phie
     Ce =  ce
     eps = 1.0
-    block = block_0
+    block = 0
   [../]
   ###############################
   ### For cathode
