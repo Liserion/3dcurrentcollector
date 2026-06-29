@@ -31,7 +31,7 @@
     initial_condition = 0.0874891
   [../]
   [./phis]
-    initial_condition = 133.4
+    initial_condition = 160.523
   [../]
   [./phie]
     initial_condition = 1.0e-12
@@ -87,26 +87,26 @@
   [./dcdt_separator]
     type = TimeDerivative
     variable = ce
-    block = 'block_0'
+    block = 0
   [../]
   [./cdiff_separator]
     type = SeparatorCeKernel
     variable = ce
     PhiE = phie
     eps = 1.0
-    block = 'block_0'
+    block = 0
   [../]
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
-    block = 'block_0'
+    block = 0
   [../]
   [./phi2_separator]
     type = SeparatorPhiEKernel
     variable = phie
     Ce =  ce
     eps = 1.0
-    block = 'block_0'
+    block = 0
   [../]
   ###############################
   ### For cathode
@@ -187,20 +187,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.1455    # TRUE 1C (scaled from ARL ground-truth: 0.253C at I=0.0372588)
-                  # NEW mesh: top=1.14982e5, vol=1.904049e7, catcc=2.705984e5
+    I = 0.0442
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.06182  # TRUE 1C balanced: I_top × top/catcc = I_top × 0.4249
+    I = 0.00838
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.1455
+    I = 0.0442
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -227,24 +226,27 @@
 [Executioner]
   type = Transient
   solve_type = PJFNK
-  line_search = bt
-  nl_max_its = 30
 
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
 
-  nl_rel_tol = 1e-04
-  nl_abs_tol = 1e-05
+  nl_rel_tol = 8.5e-08
+  nl_abs_tol = 1.5e-07
+
+  # picard_max_its = 80
+  # picard_rel_tol = 6.5e-08
+  # picard_abs_tol = 1.0e-07
 
   [./TimeStepper]
     type = IterationAdaptiveDT
-    dt = 1.0e-4
+    dt = 1.0e-6
     optimal_iterations = 5
-    growth_factor = 1.5
+    growth_factor = 1.2
     cutback_factor = 0.5
   [../]
   dtmax = 1.0
-  end_time = 12000.0
+  end_time = 36000.0
+  # num_steps = 2
 
   steady_state_detection = true
   steady_state_start_time = 12.0
@@ -261,7 +263,7 @@
   exodus = true
   execute_on = 'TIMESTEP_END'
   print_linear_residuals = false
-  console = true
+  console = false
   #interval = 2
 []
 
@@ -331,7 +333,7 @@
     execute_on = 'TIMESTEP_END'
     # sub_cycling = true
     sub_cycling = true
-    input_files =  micro.i
+    input_files = micro_original.i
     block = cathode
   [../]
 []

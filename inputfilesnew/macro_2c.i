@@ -187,20 +187,20 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.1455    # TRUE 1C (scaled from ARL ground-truth: 0.253C at I=0.0372588)
+    I = 0.2910    # TRUE 2C (scaled from ARL ground-truth: 0.253C at I=0.0372588)
                   # NEW mesh: top=1.14982e5, vol=1.904049e7, catcc=2.705984e5
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.06182  # TRUE 1C balanced: I_top × top/catcc = I_top × 0.4249
+    I = 0.12364  # TRUE 2C balanced: I_top × top/catcc = I_top × 0.4249
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.1455
+    I = 0.2910
   [../]
 #  [./PhiE]
 #    type = DirichletBC
