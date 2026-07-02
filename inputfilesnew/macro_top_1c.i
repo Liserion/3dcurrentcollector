@@ -187,20 +187,20 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 30    # ~0.3C effective with fast-cell params (scaled 14x from naive) (geometry-fixed mesh: wires-touch-bottom, no dead zone)
-                  # top=1.14982e5, vol=1.904049e7, catcc=2.705984e5
+    I = 1.108    # 1C FAST-CELL (wires-at-top variant, 220 μm cathode) (scaled from ARL ground-truth: 0.253C at I=0.0372588)
+                  # NEW mesh: top=1.14982e5, vol=1.904049e7, catcc=2.705984e5
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 12.75    # ~0.3C balanced
+    I = 0.470  # 1C FAST-CELL (wires-at-top variant, 220 μm cathode) balanced: I_top × top/catcc = I_top × 0.4249
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 30
+    I = 1.108
   [../]
 #  [./PhiE]
 #    type = DirichletBC
@@ -331,7 +331,7 @@
     execute_on = 'TIMESTEP_END'
     # sub_cycling = true
     sub_cycling = true
-    input_files =  micro.i
+    input_files = micro_fast.i
     block = cathode
   [../]
 []
