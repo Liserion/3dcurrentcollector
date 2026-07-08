@@ -8,9 +8,13 @@
 # TODO: add your usual '#SBATCH --partition=...' (and '--account=...' if you
 #       use one) from your existing macro job script.
 
-# TODO: copy the 'module load ...' / conda activation lines from your
-#       existing macro job script here (whatever environment you compile
-#       babbler with on the cluster).
+# Build/runtime environment (Lichtenberg, same as used to compile babbler)
+module load gcc/11.5.0-z7mc
+module load openmpi/4.1.8-6xzv
+module load cmake/3.31.9-btkq
+module load python/3.11.14-xvq4
+module load python-venv/1.0-py_3.11-qcz3
+source ~/moose_env/bin/activate
 
 # The polynomial model has no MultiApp, so a plain MPI run is fine.
 # Recompile babbler on the cluster first:
