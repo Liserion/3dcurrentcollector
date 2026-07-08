@@ -8,9 +8,12 @@
 # TODO: add your usual '#SBATCH --partition=...' (and '--account=...' if you
 #       use one) from your existing macro job script.
 
-# Build/runtime environment (Lichtenberg, same as used to compile babbler)
+# Build/runtime environment (Lichtenberg, same as used to compile babbler).
+# NOTE: mpich, NOT openmpi — the cluster PETSc/MOOSE was configured with
+# MPICH and mixing them fails with "PETSc was configured with MPICH but..."
+module purge
 module load gcc/11.5.0-z7mc
-module load openmpi/4.1.8-6xzv
+module load mpich/4.3.2-hca2
 module load cmake/3.31.9-btkq
 module load python/3.11.14-xvq4
 module load python-venv/1.0-py_3.11-qcz3
