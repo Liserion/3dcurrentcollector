@@ -21,9 +21,9 @@ source ~/moose_env/bin/activate
 
 # The polynomial model has no MultiApp, so a plain MPI run is fine.
 # Recompile babbler on the cluster first:
-#   cd ~/babbler && git pull && make -j8
+#   cd ~/projects/babbler && git pull && make -j8 ALL_MODULES=no
 
-BABBLER=$HOME/babbler/babbler-opt
+BABBLER=$HOME/projects/babbler/babbler-opt
 
 # --------------------------------------------------------------------------
 # The input's default currents (I_top = 0.03, ~TRUE 0.2C) are validated and
