@@ -1,0 +1,344 @@
+# ============================================================================
+# Subramanian polynomial-approximation variant of macro_top_1c.i
+#
+# Instead of solving the full 1D spherical diffusion PDE per macro element
+# (CentroidMultiApp + micro_fast.i), the solid phase is reduced to the
+# two-parameter parabolic-profile model of Subramanian et al. (2005):
+#
+#   d(cs_avg)/dt = -(3/Rs) * j_n              (CsAvgODEKernelPoly, a = 3/Rs = 6)
+#   cs_surf      = cs_avg - j_n*Rs/(5*Ds)     (PolynomialCsClosureKernel)
+#
+# cs_avg AND cs (= surface concentration) are nonlinear Variables solved
+# monolithically with ce/phis/phie — the closure is an algebraic equation in
+# the same Newton system, so there is no sub-cycled MultiApp, no transfers,
+# and no lagged AuxVariable coupling. The cathode transport kernels
+# (*KernelPoly) use the substituted closure flux j_n = (cs_avg-cs)*5*Ds/Rs,
+# so the Butler-Volmer exponential appears only in the closure equation.
+# Same mesh, BCs, parameters and outputs as macro_top_1c.i for comparison.
+#
+# ----------------------------------------------------------------------------
+# VALIDITY LIMIT (important!): the parabolic profile can sustain at most
+#   |j_n| <= (1 - cs_avg) * 5*Ds/Rs  ~ 5e-5   (nondim, Ds=1e-5, Rs=0.5)
+# per unit particle area. The 1C FAST-CELL BCs below demand j_n ~ 1.2e-3
+# (25x the cap), so at full current this model is infeasible by construction
+# and the Newton solve stalls — a correct model answer: the real particle
+# carries such flux only in a thin surface boundary layer, which a parabolic
+# profile cannot represent.
+# Validated operating range: I_top <~ 0.045, e.g. run with
+#   BCs/flux_c/I=0.0222 BCs/flux_phi1/I=0.0094 BCs/flux_phi2/I=0.0222
+# (verified: converges with dt -> dtmax at tight tolerances; closure flux,
+# soc rate and cell voltage mutually consistent).
+# NOTE: I=1.108 would discharge the whole cathode in ~60 time units (vs
+# end_time=12000) — worth re-checking the fast-cell C-rate calibration
+# against the standard-cell runs in inputfilesnew, whose observed rate
+# (dsoc/dt ~ 7e-5 at "0.4C", similar I magnitude) is ~100x smaller.
+# ----------------------------------------------------------------------------
+# ============================================================================
+
+[Mesh]
+  type = FileMesh
+  file = macro_in.e
+  construct_side_list_from_node_list = true
+[]
+
+[GlobalParams]
+  D = 3500.0
+  Cm = 0.1714785651793526
+  Sigma = 4426.43
+  K = 87.364
+  K2 = 171.375
+  MateChoice = 4 # For LiFePO4
+  a = 6.0        # = 3/Rs with Rs = 0.5
+[]
+
+[Variables]
+  [./ce]
+    initial_condition = 0.0874891
+  [../]
+  # Equilibrium-consistent ICs (eta = 0 at t=0): phis matches its top
+  # Dirichlet BC, phie = -U_ocv(cs=0.5) = -133.4938 in the same gauge.
+  # This avoids the huge inconsistent-IC transient of the original input,
+  # which a tightly-converged monolithic solve cannot step over.
+  [./phis]
+    initial_condition = 1.0e-12
+  [../]
+  [./phie]
+    initial_condition = -133.4938
+  [../]
+  [./cs_avg]
+    initial_condition = 0.5
+    block = cathode
+  [../]
+  [./cs]
+    initial_condition = 0.5
+    block = cathode
+  [../]
+[]
+
+[AuxVariables]
+  [./soc]
+    family = LAGRANGE
+    order = FIRST
+    initial_condition = 0.5
+    block = cathode
+  [../]
+  [./Damage]
+    family = LAGRANGE
+    order = FIRST
+    initial_condition = 0.0
+  [../]
+  [./SigmaH]
+    family = LAGRANGE
+    order = FIRST
+    initial_condition = 0.0
+  [../]
+  [./RealC]
+    family = LAGRANGE
+    order = FIRST
+    initial_condition = 1.0e-12
+  [../]
+  [./RealPhi1]
+    family = LAGRANGE
+    order = FIRST
+    initial_condition = 1.0e-12
+  [../]
+  [./RealPhi2]
+    family = LAGRANGE
+    order = FIRST
+    initial_condition = 1.0e-12
+  [../]
+[]
+
+[Kernels]
+  [./dcdt_separator]
+    type = TimeDerivative
+    variable = ce
+    block = 'block_0'
+  [../]
+  [./cdiff_separator]
+    type = SeparatorCeKernel
+    variable = ce
+    PhiE = phie
+    eps = 1.0
+    block = 'block_0'
+  [../]
+  [./phi1_separator]
+    type = SeparatorPhiSKernel
+    variable = phis
+    block = 'block_0'
+  [../]
+  [./phi2_separator]
+    type = SeparatorPhiEKernel
+    variable = phie
+    Ce =  ce
+    eps = 1.0
+    block = 'block_0'
+  [../]
+  ###############################
+  ### For cathode
+  [./dcdt_cathode]
+    type = CoefTimeDerivative
+    variable = ce
+    Coefficient = 0.2
+    block = cathode
+  [../]
+  # The cathode transport kernels use the substituted closure flux
+  #   j_n = (cs_avg - cs) * 5*Ds/Rs   (linear, bounded)
+  # so the Butler-Volmer exponential appears ONLY in the cs closure equation
+  # and all Jacobians entering the preconditioner are exact.
+  [./cdiff_cathode]
+    type = CathodeCeKernelPoly
+    variable = ce
+    PhiE = phie
+    Cs = cs
+    CsAvg = cs_avg
+    eps = 0.2
+    Ds = 1.0e-5
+    Rs = 0.5
+    block = cathode
+  [../]
+  [./phi1_cathode]
+    type = CathodePhiSKernelPoly
+    variable = phis
+    Cs = cs
+    CsAvg = cs_avg
+    eps = 0.2
+    Ds = 1.0e-5
+    Rs = 0.5
+    block = cathode
+  [../]
+  [./phi2_cathode]
+    type = CathodePhiEKernelPoly
+    variable = phie
+    Ce = ce
+    Cs = cs
+    CsAvg = cs_avg
+    eps = 0.2
+    Ds = 1.0e-5
+    Rs = 0.5
+    block = cathode
+  [../]
+  ###############################
+  ### Subramanian solid-phase ODE (replaces the micro MultiApp)
+  [./dcs_avg_dt]
+    type = TimeDerivative
+    variable = cs_avg
+    block = cathode
+  [../]
+  [./cs_avg_src]
+    type = CsAvgODEKernelPoly
+    variable = cs_avg
+    Cs = cs
+    Ds = 1.0e-5
+    Rs = 0.5
+    block = cathode
+  [../]
+  # Algebraic parabolic-profile closure: cs = cs_avg - j_n*Rs/(5*Ds),
+  # solved implicitly in the same Newton system as all other variables.
+  # This is the only equation containing the Butler-Volmer kinetics.
+  [./cs_closure]
+    type = PolynomialCsClosureKernel
+    variable = cs
+    cs_avg = cs_avg
+    Ce = ce
+    PhiS = phis
+    PhiE = phie
+    Ds = 1.0e-5
+    Rs = 0.5
+    Damage = Damage
+    SigmaH = SigmaH
+    block = cathode
+  [../]
+[]
+
+[AuxKernels]
+  # soc = particle-averaged concentration (same output field as MultiApp run)
+  [./soc_from_cs_avg]
+    type = GetRealValueAuxKernel
+    variable = soc
+    dof = cs_avg
+    CoefFactor = 1.0
+    block = cathode
+  [../]
+  [./getC]
+    type = GetRealValueAuxKernel
+    variable = RealC
+    dof = ce
+    CoefFactor = 22860.0
+  [../]
+  [./getPhi1]
+    type = GetRealValueAuxKernel
+    variable = RealPhi1
+    dof = phis
+    CoefFactor = 0.025690705483640282
+  [../]
+  [./getPhi2]
+    type = GetRealValueAuxKernel
+    variable = RealPhi2
+    dof = phie
+    CoefFactor = -0.025690705483640282
+  [../]
+[]
+
+[BCs]
+  [./flux_c]
+    type = ConstFluxForCeBC
+    variable = ce
+    boundary = top
+    I = 1.108    # 1C FAST-CELL (wires-at-top variant, 220 um cathode), same as macro_top_1c.i
+  [../]
+  [./flux_phi1]
+    type = ConstFluxForPhiSBC
+    variable = phis
+    boundary = cat_cc
+    I = 0.470  # balanced: I_top x top/catcc = I_top x 0.4249
+  [../]
+  [./flux_phi2]
+    type = ConstFluxForPhiEBC
+    variable = phie
+    boundary = top
+    I = 1.108
+  [../]
+  [./PhiS]
+    type = DirichletBC
+    variable = phis
+    value = 0.0
+    boundary = top
+  [../]
+[]
+
+[Preconditioning]
+  [./smp]
+    type = SMP
+    full = true
+  [../]
+[]
+
+[Executioner]
+  type = Transient
+  solve_type = PJFNK
+  line_search = bt
+  nl_max_its = 30
+
+  petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
+  petsc_options_value = ' lu       1501                mumps'
+
+  # Tight tolerances are REQUIRED here: with the original loose values
+  # (rel 1e-4 / abs 1e-5) the cs_avg/cs equations are accepted while still
+  # unconverged and the soc trajectory is silently wrong by ~100x.
+  nl_rel_tol = 1e-08
+  nl_abs_tol = 1e-06
+
+  [./TimeStepper]
+    type = IterationAdaptiveDT
+    dt = 1.0e-4
+    optimal_iterations = 5
+    growth_factor = 1.5
+    cutback_factor = 0.5
+  [../]
+  dtmax = 1.0
+  end_time = 12000.0
+
+  steady_state_detection = true
+  steady_state_start_time = 12.0
+  steady_state_tolerance = 9e-09
+[]
+
+[Outputs]
+  csv = true
+  exodus = true
+  execute_on = 'TIMESTEP_END'
+  print_linear_residuals = false
+  console = true
+[]
+
+[Postprocessors]
+  [./cellv]
+    type = SideAverageValue
+    variable = RealPhi2
+    boundary = top
+    execute_on = 'TIMESTEP_END'
+  [../]
+  [./soc]
+    type = ElementAverageValue
+    variable = soc
+    block = cathode
+  [../]
+  [./soe]
+    type = ElementAverageValue
+    variable = ce
+    block = cathode
+  [../]
+  [./soet]
+    type = ElementAverageValue
+    variable = ce
+  [../]
+  [./cs_surf_avg]
+    type = ElementAverageValue
+    variable = cs
+    block = cathode
+  [../]
+  [./dt]
+    type = TimestepSize
+  [../]
+[]
