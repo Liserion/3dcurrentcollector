@@ -19,10 +19,13 @@ module load python/3.11.14-xvq4
 module load python-venv/1.0-py_3.11-qcz3
 source ~/moose_env/bin/activate
 
-# Ensure gcc-11.5's libstdc++ wins over the old /shared/apps/gcc/10.2.0 one,
-# otherwise: "version GLIBCXX_3.4.29 not found"
+# Force MPICH to the front of PATH (login env pushes openmpi first) and
+# ensure gcc-11.5's libstdc++ wins over the old /shared/apps/gcc/10.2.0 one
+# (otherwise: "version GLIBCXX_3.4.29 not found")
+MPICH_DIR=/shared/spapps_2026_01/gcc-11.5.0/mpich-4.3.2-hca27ge6n6hhwhsfm64gatwdxkjbwvrk
+export PATH=$MPICH_DIR/bin:$PATH
 GCCLIB=$(dirname $(dirname $(which gcc)))/lib64
-export LD_LIBRARY_PATH=$GCCLIB:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$MPICH_DIR/lib:$GCCLIB:$LD_LIBRARY_PATH
 
 cd /work/scratch/jk98dago
 
