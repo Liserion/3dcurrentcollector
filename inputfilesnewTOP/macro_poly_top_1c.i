@@ -19,19 +19,17 @@
 # ----------------------------------------------------------------------------
 # VALIDITY LIMIT (important!): the parabolic profile can sustain at most
 #   |j_n| <= (1 - cs_avg) * 5*Ds/Rs  ~ 5e-5   (nondim, Ds=1e-5, Rs=0.5)
-# per unit particle area. The 1C FAST-CELL BCs below demand j_n ~ 1.2e-3
-# (25x the cap), so at full current this model is infeasible by construction
-# and the Newton solve stalls — a correct model answer: the real particle
-# carries such flux only in a thin surface boundary layer, which a parabolic
-# profile cannot represent.
-# Validated operating range: I_top <~ 0.045, e.g. run with
-#   BCs/flux_c/I=0.0222 BCs/flux_phi1/I=0.0094 BCs/flux_phi2/I=0.0222
-# (verified: converges with dt -> dtmax at tight tolerances; closure flux,
-# soc rate and cell voltage mutually consistent).
-# NOTE: I=1.108 would discharge the whole cathode in ~60 time units (vs
-# end_time=12000) — worth re-checking the fast-cell C-rate calibration
-# against the standard-cell runs in inputfilesnew, whose observed rate
-# (dsoc/dt ~ 7e-5 at "0.4C", similar I magnitude) is ~100x smaller.
+# per unit particle area, so the model is limited to low-to-moderate C-rates
+# (the classical validity range of the two-parameter Subramanian model).
+# Measured on this mesh:
+#   I_top = 0.03   (~TRUE 0.2C)  -> converges robustly (default below)
+#   I_top = 0.0436 (TRUE 0.3C, = working inputfilesnew/macro.i current)
+#                                -> just OVER the cap, fails at step 1
+#   I_top = 1.108  (1C FAST-CELL) -> 25x over the cap, infeasible
+# The failures are correct model answers: above the cap the real particle
+# carries flux in a thin surface boundary layer that a parabolic profile
+# cannot represent (use the full micro PDE / MultiApp there).
+# For a poly-vs-MultiApp comparison, run BOTH at the same I <= 0.03.
 # ----------------------------------------------------------------------------
 # ============================================================================
 
@@ -241,23 +239,28 @@
 []
 
 [BCs]
+  # Currents on the TRUE C-rate scale of inputfilesnew/macro.i
+  # (TRUE 0.3C = 0.0436, scaled from ARL ground-truth 0.253C at I=0.0372588).
+  # Default here: I_top = 0.03 (~TRUE 0.2C) — validated, converges robustly.
+  # TRUE 0.3C (0.0436) is just OVER the parabolic closure cap and fails at
+  # step 1; the 1C FAST-CELL value (1.108) is 25x over the cap. See header.
   [./flux_c]
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 1.108    # 1C FAST-CELL (wires-at-top variant, 220 um cathode), same as macro_top_1c.i
+    I = 0.03
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.470  # balanced: I_top x top/catcc = I_top x 0.4249
+    I = 0.012747  # balanced: I_top x top/catcc = I_top x 0.4249
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 1.108
+    I = 0.03
   [../]
   [./PhiS]
     type = DirichletBC

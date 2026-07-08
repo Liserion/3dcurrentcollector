@@ -19,15 +19,12 @@
 BABBLER=$HOME/babbler/babbler-opt
 
 # --------------------------------------------------------------------------
-# IMPORTANT: at the full fast-cell current (I=1.108) the parabolic model is
-# infeasible (demanded j_n ~ 25x the closure cap) and the solve stalls by
-# construction — see the header of macro_poly_top_1c.i. The overrides below
-# run the validated operating point (I_top = 0.0222, ~1/50 of fast-cell 1C).
-# For a C-rate sweep, scale all three I values together and keep
-# I_catcc = 0.4249 * I_top.
+# The input's default currents (I_top = 0.03, ~TRUE 0.2C) are validated and
+# converge robustly. Above I_top ~ 0.045 the parabolic closure is infeasible
+# (see the input header) — do NOT raise to the old fast-cell 1.108.
+# For a C-rate sweep, override all three I values together and keep
+# I_catcc = 0.4249 * I_top, e.g.:
+#   BCs/flux_c/I=0.02 BCs/flux_phi1/I=0.008498 BCs/flux_phi2/I=0.02
 # --------------------------------------------------------------------------
 srun $BABBLER -i macro_poly_top_1c.i \
-  BCs/flux_c/I=0.0222 \
-  BCs/flux_phi1/I=0.0094 \
-  BCs/flux_phi2/I=0.0222 \
-  Outputs/file_base=macro_poly_lowI_out
+  Outputs/file_base=macro_poly_out
