@@ -123,6 +123,11 @@
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
+    # A real separator is an electronic insulator. Without this override the
+    # kernel inherits the cathode's Sigma=4426 from GlobalParams, which turns
+    # the separator solid phase + the phis=0 top anchor into an electron
+    # bypass around the reaction (ARL report Table 1 requires i1.n = 0 here).
+    Sigma = 0.01
     block = 'block_0'
   [../]
   [./phi2_separator]
@@ -239,11 +244,13 @@
 []
 
 [BCs]
-  # Currents on the TRUE C-rate scale of inputfilesnew/macro.i
-  # (TRUE 0.3C = 0.0436, scaled from ARL ground-truth 0.253C at I=0.0372588).
-  # Default here: I_top = 0.03 (~TRUE 0.2C) — validated, converges robustly.
-  # TRUE 0.3C (0.0436) is just OVER the parabolic closure cap and fails at
-  # step 1; the 1C FAST-CELL value (1.108) is 25x over the cap. See header.
+  # MEASURED mesh geometry (2026-07-09): A_top = 1.14982e5,
+  # A_catcc = 5.92040e5, V_cathode = 2.13510e7 -> balanced ratio
+  # I_catcc = I_top * A_top/A_catcc = I_top * 0.19421.
+  # First-principles 1C for this mesh: I_top = 0.04172.
+  # Default here: I_top = 0.03 (~0.72C true) — validated, converges robustly,
+  # intercalation = 100% of applied current with the insulating separator.
+  # Higher currents exceed the parabolic closure cap (see header).
   [./flux_c]
     type = ConstFluxForCeBC
     variable = ce
@@ -254,7 +261,7 @@
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.012747  # balanced: I_top x top/catcc = I_top x 0.4249
+    I = 0.0058264  # balanced: I_top * 0.19421 (measured areas, NOT the stale 0.4249)
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
