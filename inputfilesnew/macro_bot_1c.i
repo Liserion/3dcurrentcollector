@@ -99,6 +99,11 @@
   [./phi1_separator]
     type = SeparatorPhiSKernel
     variable = phis
+    # A real separator is an electronic insulator. Without this override the
+    # kernel inherits the cathode's Sigma=4426 from GlobalParams, which turns
+    # the separator solid phase + the phis=0 top anchor into an electron
+    # bypass around the reaction (ARL report Table 1 requires i1.n = 0 here).
+    Sigma = 0.01
     block = 'block_0'
   [../]
   [./phi2_separator]
@@ -183,24 +188,28 @@
 []
 
 [BCs]
+  # TRUE first-principles 1C for the wires-at-BOTTOM mesh, measured with
+  # crate_calc.py (2026-07-10): A_top = 1.14982e5, A_catcc = 5.72879e5
+  # (MOOSE-constructed), V_cathode = 2.13510e7 -> ratio 0.20071.
+  # I_top(1C) = 0.8*2.1351e7/(3600*1.14982e5*0.989) = 0.0417152.
+  # The old fast-cell I=1.108 was a compensation for the separator bypass.
   [./flux_c]
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 1.108    # 1C FAST-CELL (wires-at-bottom variant, 220 μm cathode) (scaled from ARL ground-truth: 0.253C at I=0.0372588)
-                  # NEW mesh: top=1.14982e5, vol=1.904049e7, catcc=2.705984e5
+    I = 0.0417152   # true 1C for this mesh   (old bypass-era value: 1.108)
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.470  # 1C FAST-CELL (wires-at-bottom variant, 220 μm cathode) balanced: I_top × top/catcc = I_top × 0.4249
+    I = 0.0083728   # true 1C balanced: I_top * 0.20071   (old: 0.470)
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 1.108
+    I = 0.0417152   # true 1C for this mesh   (old: 1.108)
   [../]
 #  [./PhiE]
 #    type = DirichletBC
