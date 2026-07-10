@@ -30,11 +30,15 @@
   [./ce]
     initial_condition = 0.0874891
   [../]
+  # Equilibrium-consistent ICs (eta = 0 at t=0): phis matches its top
+  # Dirichlet, phie = -U_ocv(cs=0.5) = -133.4938 in the same gauge. The old
+  # phis=133.4 contradicted the Dirichlet and produced a ~1e8 startup
+  # residual that let loose tolerances accept unbalanced equations.
   [./phis]
-    initial_condition = 133.4
+    initial_condition = 1.0e-12
   [../]
   [./phie]
-    initial_condition = 1.0e-12
+    initial_condition = -133.4938
   [../]
 []
 [AuxVariables]
@@ -249,8 +253,11 @@
   petsc_options_iname = '-pc_type -ksp_gmres_restart -pc_factor_mat_solver_type'
   petsc_options_value = ' lu       1501                mumps'
 
-  nl_rel_tol = 1e-04
-  nl_abs_tol = 1e-05
+  # Tight tolerances are REQUIRED at the true (small) currents: with rel
+  # 1e-4 the solver accepts current-balance residuals of thousands of units
+  # and the applied current is silently ignored (soc rate ~100x too small).
+  nl_rel_tol = 1e-08
+  nl_abs_tol = 1e-06
 
   [./TimeStepper]
     type = IterationAdaptiveDT
