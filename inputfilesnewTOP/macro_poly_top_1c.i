@@ -156,7 +156,7 @@
     Cs = cs
     CsAvg = cs_avg
     eps = 0.2
-    Ds = 1.0e-5
+    Ds = 2.2e-4  # corrected: Safari&Delacourt D1=1.18e-18 m2/s with nano radius 36.5nm (was 1.0e-5, source-less)
     Rs = 0.5
     block = cathode
   [../]
@@ -166,7 +166,7 @@
     Cs = cs
     CsAvg = cs_avg
     eps = 0.2
-    Ds = 1.0e-5
+    Ds = 2.2e-4  # corrected: Safari&Delacourt D1=1.18e-18 m2/s with nano radius 36.5nm (was 1.0e-5, source-less)
     Rs = 0.5
     block = cathode
   [../]
@@ -177,7 +177,7 @@
     Cs = cs
     CsAvg = cs_avg
     eps = 0.2
-    Ds = 1.0e-5
+    Ds = 2.2e-4  # corrected: Safari&Delacourt D1=1.18e-18 m2/s with nano radius 36.5nm (was 1.0e-5, source-less)
     Rs = 0.5
     block = cathode
   [../]
@@ -192,7 +192,7 @@
     type = CsAvgODEKernelPoly
     variable = cs_avg
     Cs = cs
-    Ds = 1.0e-5
+    Ds = 2.2e-4  # corrected: Safari&Delacourt D1=1.18e-18 m2/s with nano radius 36.5nm (was 1.0e-5, source-less)
     Rs = 0.5
     block = cathode
   [../]
@@ -206,7 +206,7 @@
     Ce = ce
     PhiS = phis
     PhiE = phie
-    Ds = 1.0e-5
+    Ds = 2.2e-4  # corrected: Safari&Delacourt D1=1.18e-18 m2/s with nano radius 36.5nm (was 1.0e-5, source-less)
     Rs = 0.5
     Damage = Damage
     SigmaH = SigmaH
