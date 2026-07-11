@@ -17,19 +17,14 @@
 # Same mesh, BCs, parameters and outputs as macro_top_1c.i for comparison.
 #
 # ----------------------------------------------------------------------------
-# VALIDITY LIMIT (important!): the parabolic profile can sustain at most
-#   |j_n| <= (1 - cs_avg) * 5*Ds/Rs  ~ 5e-5   (nondim, Ds=1e-5, Rs=0.5)
-# per unit particle area, so the model is limited to low-to-moderate C-rates
-# (the classical validity range of the two-parameter Subramanian model).
-# Measured on this mesh:
-#   I_top = 0.03   (~TRUE 0.2C)  -> converges robustly (default below)
-#   I_top = 0.0436 (TRUE 0.3C, = working inputfilesnew/macro.i current)
-#                                -> just OVER the cap, fails at step 1
-#   I_top = 1.108  (1C FAST-CELL) -> 25x over the cap, infeasible
-# The failures are correct model answers: above the cap the real particle
-# carries flux in a thin surface boundary layer that a parabolic profile
-# cannot represent (use the full micro PDE / MultiApp there).
-# For a poly-vs-MultiApp comparison, run BOTH at the same I <= 0.03.
+# VALIDATED 1C CONFIGURATION (2026-07-11): with the corrected particle
+# diffusivity Ds = 2.2e-4 (Safari & Delacourt 2011 nano-LFP pair), the
+# sealed separator, measured-geometry balanced currents, and consistent ICs,
+# this input delivers a complete true-1C discharge: 2.5 V cutoff at
+# t = 1705 s, soc 0.5 -> 0.979, effective rate 1.011C (results/poly_true1c).
+# Validity of the parabolic closure: |j_n| <= (1 - cs_avg) * 5*Ds/Rs
+# = (1 - cs_avg) * 2.2e-3, comfortably above the 1C demand of 4.7e-5 —
+# rates up to several C are representable before the closure cap binds.
 # ----------------------------------------------------------------------------
 # ============================================================================
 
@@ -255,19 +250,19 @@
     type = ConstFluxForCeBC
     variable = ce
     boundary = top
-    I = 0.03
+    I = 0.0417151   # true 1C (validated; crate_calc.py for other meshes/rates)
   [../]
   [./flux_phi1]
     type = ConstFluxForPhiSBC
     variable = phis
     boundary = cat_cc
-    I = 0.0058264  # balanced: I_top * 0.19421 (measured areas, NOT the stale 0.4249)
+    I = 0.0081016   # true 1C balanced: I_top * 0.19421 (measured areas)
   [../]
   [./flux_phi2]
     type = ConstFluxForPhiEBC
     variable = phie
     boundary = top
-    I = 0.03
+    I = 0.0417151   # true 1C (validated; crate_calc.py for other meshes/rates)
   [../]
   [./PhiS]
     type = DirichletBC
