@@ -53,10 +53,10 @@
   # This avoids the huge inconsistent-IC transient of the original input,
   # which a tightly-converged monolithic solve cannot step over.
   [./phis]
-    initial_condition = 1.0e-12
+    initial_condition = 133.37   # = U_ocv(cs=0.5): eta = 0 at t=0 in this gauge
   [../]
   [./phie]
-    initial_condition = -133.4938
+    initial_condition = 1.0e-12
   [../]
   [./cs_avg]
     initial_condition = 0.5
@@ -264,11 +264,16 @@
     boundary = top
     I = 0.0417151   # true 1C (validated; crate_calc.py for other meshes/rates)
   [../]
-  [./PhiS]
+  # Reference convention per the group's FE2 code (Betreuer, 2026-07-12):
+  # electrolyte potential pinned to 0 at the current collector. phis then has
+  # NO Dirichlet anywhere -> its equation is pure-Neumann and the injected
+  # wire current MUST be consumed by the reaction (structurally leak-proof);
+  # phis is anchored through the Butler-Volmer coupling to the pinned phie.
+  [./PhiE_ref]
     type = DirichletBC
-    variable = phis
+    variable = phie
     value = 0.0
-    boundary = top
+    boundary = cat_cc
   [../]
 []
 
@@ -318,10 +323,24 @@
 []
 
 [Postprocessors]
-  [./cellv]
+  # gauge-invariant cell voltage: V = RT/F*(phis@collector - phie@top)
+  # (= RealPhi1@cat_cc + RealPhi2@top since RealPhi2 = -phie*RT/F)
+  [./cellv_phis_cc]
+    type = SideAverageValue
+    variable = RealPhi1
+    boundary = cat_cc
+    execute_on = 'TIMESTEP_END'
+  [../]
+  [./cellv_phie_top]
     type = SideAverageValue
     variable = RealPhi2
     boundary = top
+    execute_on = 'TIMESTEP_END'
+  [../]
+  [./cellv]
+    type = ParsedPostprocessor
+    expression = 'cellv_phis_cc + cellv_phie_top'
+    pp_names = 'cellv_phis_cc cellv_phie_top'
     execute_on = 'TIMESTEP_END'
   [../]
   [./soc]
