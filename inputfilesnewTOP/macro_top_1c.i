@@ -308,7 +308,7 @@
   [../]
   [./cellv]
     type = ParsedPostprocessor
-    expression = 'cellv_phis_cc + cellv_phie_top'
+    function = 'cellv_phis_cc + cellv_phie_top'   # 'function' = old param name, works on all MOOSE versions
     pp_names = 'cellv_phis_cc cellv_phie_top'
     execute_on = 'TIMESTEP_END'
   [../]
