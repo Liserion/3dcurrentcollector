@@ -42,15 +42,19 @@
   [../]
 []
 [AuxVariables]
+  # Elemental (constant monomial) so each element carries EXACTLY its own
+  # micro app's surface value — the nodal LAGRANGE + 3-point interpolation
+  # blended neighboring spheres into the reaction, making macro and micro
+  # solve inconsistent problems (Picard could not contract: |R| flat).
   [./cs]
-    family = LAGRANGE
-    order = FIRST
+    family = MONOMIAL
+    order = CONSTANT
     initial_condition = 0.5
     block = cathode
   [../]
   [./soc]
-    family = LAGRANGE
-    order = FIRST
+    family = MONOMIAL
+    order = CONSTANT
     initial_condition = 0.5
     block = cathode
   [../]
@@ -416,7 +420,7 @@
     postprocessor = cs_surface
     displaced_source_mesh = false
     displaced_target_mesh = false
-    num_points = 3
+    num_points = 1  # nearest = the element's own sub-app (exact backward map)
     power = 2
     radius = -1
   [../]
@@ -430,7 +434,7 @@
     postprocessor = socp
     displaced_source_mesh = false
     displaced_target_mesh = false
-    num_points = 3
+    num_points = 1  # nearest = the element's own sub-app (exact backward map)
     power = 2
     radius = -1
   [../]
@@ -444,7 +448,7 @@
 #   #   postprocessor = SigmaH
 #   #   displaced_source_mesh = false
 #   #   displaced_target_mesh = false
-#   #   num_points = 3
+#   #   num_points = 1  # nearest = the element's own sub-app (exact backward map)
 #   #   power = 2
 #   #   radius = -1
 #   # [../]
@@ -458,7 +462,7 @@
 #    postprocessor = Damage
 #    displaced_source_mesh = false
 #    displaced_target_mesh = false
-#    num_points = 3
+#    num_points = 1  # nearest = the element's own sub-app (exact backward map)
 #    power = 2
 #    radius = -1
 #  [../]
