@@ -46,19 +46,20 @@
   # micro app's surface value — the nodal LAGRANGE + 3-point interpolation
   # blended neighboring spheres into the reaction, making macro and micro
   # solve inconsistent problems (Picard could not contract: |R| flat).
-  # LAGRANGE (nodal): the cluster's MOOSE version corrupts elemental
-  # variables in MultiAppPostprocessorInterpolationTransfer (measured:
-  # fp residual exploded to 9.7e7 right after the transfer). Nodal field
-  # + num_points=1 keeps the nearest-sphere backward map version-safely.
+  # CONSTANT MONOMIAL: filled by CentroidPostprocessorTransfer (babbler's
+  # own transfer) with each element's OWN sub-app surface value — the exact
+  # per-element backward map. The stock interpolation transfer either blends
+  # neighboring spheres (num_points=3, macro/micro inconsistent, Picard
+  # cannot contract) or corrupts the field (num_points=1) in this MOOSE.
   [./cs]
-    family = LAGRANGE
-    order = FIRST
+    family = MONOMIAL
+    order = CONSTANT
     initial_condition = 0.5
     block = cathode
   [../]
   [./soc]
-    family = LAGRANGE
-    order = FIRST
+    family = MONOMIAL
+    order = CONSTANT
     initial_condition = 0.5
     block = cathode
   [../]
@@ -416,31 +417,21 @@
 #   #####################################
 #   ## Cs_surface to macro
   [./cs_from_micro]
-    type = MultiAppPostprocessorInterpolationTransfer
+    type = CentroidPostprocessorTransfer
     multi_app = micro
-    execute_on = 'TIMESTEP_END'
     direction = from_multiapp
+    execute_on = 'TIMESTEP_END'
     variable = cs
     postprocessor = cs_surface
-    displaced_source_mesh = false
-    displaced_target_mesh = false
-    num_points = 1  # nearest = the element's own sub-app (exact backward map)
-    power = 2
-    radius = -1
   [../]
   ## Cs_surface to macro
   [./soc_from_micro]
-    type = MultiAppPostprocessorInterpolationTransfer
+    type = CentroidPostprocessorTransfer
     multi_app = micro
-    execute_on = 'TIMESTEP_END'
     direction = from_multiapp
+    execute_on = 'TIMESTEP_END'
     variable = soc
     postprocessor = socp
-    displaced_source_mesh = false
-    displaced_target_mesh = false
-    num_points = 1  # nearest = the element's own sub-app (exact backward map)
-    power = 2
-    radius = -1
   [../]
 #   ###########################
 #   # [./sigmaH_from_micro]
