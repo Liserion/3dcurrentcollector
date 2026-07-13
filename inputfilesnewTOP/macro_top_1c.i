@@ -46,15 +46,19 @@
   # micro app's surface value — the nodal LAGRANGE + 3-point interpolation
   # blended neighboring spheres into the reaction, making macro and micro
   # solve inconsistent problems (Picard could not contract: |R| flat).
+  # LAGRANGE (nodal): the cluster's MOOSE version corrupts elemental
+  # variables in MultiAppPostprocessorInterpolationTransfer (measured:
+  # fp residual exploded to 9.7e7 right after the transfer). Nodal field
+  # + num_points=1 keeps the nearest-sphere backward map version-safely.
   [./cs]
-    family = MONOMIAL
-    order = CONSTANT
+    family = LAGRANGE
+    order = FIRST
     initial_condition = 0.5
     block = cathode
   [../]
   [./soc]
-    family = MONOMIAL
-    order = CONSTANT
+    family = LAGRANGE
+    order = FIRST
     initial_condition = 0.5
     block = cathode
   [../]
