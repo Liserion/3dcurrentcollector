@@ -264,19 +264,8 @@
   # Tight tolerances are REQUIRED at the true (small) currents: with rel
   # 1e-4 the solver accepts current-balance residuals of thousands of units
   # and the applied current is silently ignored (soc rate ~100x too small).
-  # 1e-6 (not 1e-8) is the validated value for the Picard-coupled run
-  # (cluster job picard5, 2026-07-13): within each fixed-point sweep the cs
-  # field moves anyway, so per-sweep 1e-8 only burns Newton iterations.
-  nl_rel_tol = 1e-06
+  nl_rel_tol = 1e-08
   nl_abs_tol = 1e-06
-
-  # Picard/fixed-point coupling of macro <-> micro (validated 2026-07-13,
-  # job picard5): the explicit one-shot transfer lags a timestep and lets the
-  # micro surfaces quench while the macro ghost-reacts at full current.
-  # Measured contraction: |R| 5.75e5 -> 125 -> 21 in 2 sweeps.
-  fixed_point_max_its = 12
-  fixed_point_rel_tol = 1e-4
-  accept_on_max_fixed_point_iteration = true
 
   [./TimeStepper]
     type = IterationAdaptiveDT
@@ -385,11 +374,9 @@
     app_type = babblerApp
     use_displaced_mesh = false
     execute_on = 'TIMESTEP_END'
-    # MUST be false: on the cluster's old ~/MOOSE framework, sub_cycling=true
-    # wipes the sub-app state to zero on any re-execution (every Picard
-    # iteration, every dt cutback) — the historical crash/stall cause.
-    sub_cycling = false
-    input_files = micro.i
+    # sub_cycling = true
+    sub_cycling = true
+    input_files = micro_fast.i
     block = cathode
   [../]
 []
